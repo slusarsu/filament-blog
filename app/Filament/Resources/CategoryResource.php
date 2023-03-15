@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
+use App\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Group;
@@ -50,7 +51,7 @@ class CategoryResource extends Resource
 
                             TextInput::make('slug')
                                 ->required()
-                                ->unique(self::$model, 'slug', ignoreRecord: true),
+                                ->unique(self::getModel(), 'slug', ignoreRecord: true),
 
                             TextInput::make('order')
                                 ->integer(true)
@@ -58,7 +59,7 @@ class CategoryResource extends Resource
 
                             Select::make('parent_id')
                                 ->label('Parent')
-                                ->options(self::$model::all()->pluck('title', 'id'))
+                                ->options(self::getModel()::all()->pluck('title', 'id'))
                                 ->searchable(),
 
                             TinyEditor::make('content')
@@ -102,6 +103,8 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->sortable(),
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
@@ -118,14 +121,16 @@ class CategoryResource extends Resource
                     ->date(),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
     
     public static function getRelations(): array
@@ -142,5 +147,13 @@ class CategoryResource extends Resource
             'create' => Pages\CreateCategory::route('/create'),
             'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
+    }
 }

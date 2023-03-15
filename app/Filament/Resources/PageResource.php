@@ -51,7 +51,7 @@ class PageResource extends Resource
 
                             TextInput::make('slug')
                                 ->required()
-                                ->unique(self::$model, 'slug', ignoreRecord: true)->columnSpanFull(),
+                                ->unique(self::getModel(), 'slug', ignoreRecord: true)->columnSpanFull(),
 
                             TinyEditor::make('short')
                                 ->fileAttachmentsDisk('local')
@@ -109,6 +109,8 @@ class PageResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->sortable(),
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
@@ -125,12 +127,14 @@ class PageResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
                 Tables\Actions\ForceDeleteBulkAction::make(),
                 Tables\Actions\RestoreBulkAction::make(),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
     
     public static function getRelations(): array

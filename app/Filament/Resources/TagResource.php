@@ -38,7 +38,7 @@ class TagResource extends Resource
 
                         TextInput::make('slug')
                             ->required()
-                            ->unique(self::$model, 'slug', ignoreRecord: true)->columnSpanFull(),
+                            ->unique(self::getModel(), 'slug', ignoreRecord: true)->columnSpanFull(),
                     ]),
             ]);
     }
@@ -47,6 +47,8 @@ class TagResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->sortable(),
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
@@ -57,10 +59,12 @@ class TagResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])
+            ->defaultSort('id', 'desc');
     }
     
     public static function getRelations(): array

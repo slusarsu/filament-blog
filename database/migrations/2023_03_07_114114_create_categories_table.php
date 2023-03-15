@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->nullable()->references('id')->on('categories');
+            $table->foreignId('parent_id')
+                ->nullable()
+                ->references('id')
+                ->on('categories')
+                ->onDelete('cascade');
             $table->string('title');
             $table->string('slug')->unique();
             $table->integer('order')->default(0);
@@ -21,6 +25,7 @@ return new class extends Migration
             $table->string('seo_text_keys')->nullable();
             $table->string('seo_description')->nullable();
             $table->boolean('is_enabled')->default(true);
+            $table->softDeletesDatetime();
             $table->timestamps();
         });
     }
