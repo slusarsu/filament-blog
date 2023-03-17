@@ -5,8 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
-use App\Models\Post;
-use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
@@ -19,6 +17,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
@@ -81,8 +80,8 @@ class CategoryResource extends Resource
 
                     Section::make('Thumbnail')
                         ->schema([
-                            SpatieMediaLibraryFileUpload::make('thumbnail')
-                                ->collection('categories')
+                            SpatieMediaLibraryFileUpload::make('thumb')
+                                ->collection('thumbs')
                                 ->disableLabel(),
                         ])
                         ->collapsible(),
@@ -115,6 +114,8 @@ class CategoryResource extends Resource
                     ->sortable(),
                 SpatieMediaLibraryImageColumn::make('thumbnail')
                     ->collection('categories'),
+                IconColumn::make('is_enabled')
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->label('date')
                     ->sortable()

@@ -7,7 +7,6 @@ use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
-use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
@@ -20,6 +19,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -54,7 +54,8 @@ class PostResource extends Resource
 
                             TextInput::make('slug')
                                 ->required()
-                                ->unique(self::getModel(), 'slug', ignoreRecord: true)->columnSpanFull(),
+                                ->unique(self::getModel(), 'slug', ignoreRecord: true)
+                                ->columnSpanFull(),
 
                             TinyEditor::make('short')
                                 ->fileAttachmentsDisk('local')
@@ -73,7 +74,7 @@ class PostResource extends Resource
                     Section::make('Images')
                         ->schema([
                             SpatieMediaLibraryFileUpload::make('media')
-                                ->collection('posts')
+                                ->collection('images')
                                 ->multiple()
                                 ->disableLabel(),
                         ])
@@ -126,8 +127,8 @@ class PostResource extends Resource
 
                     Section::make('Thumbnail')
                         ->schema([
-                            SpatieMediaLibraryFileUpload::make('thumbnail')
-                                ->collection('posts')
+                            SpatieMediaLibraryFileUpload::make('thumb')
+                                ->collection('thumbs')
                                 ->disableLabel(),
                         ])
                         ->collapsible(),
@@ -161,8 +162,12 @@ class PostResource extends Resource
                 TextColumn::make('slug'),
                 SpatieMediaLibraryImageColumn::make('thumbnail')
                     ->collection('posts'),
-                TagsColumn::make('categories.title')->separator(','),
-                TagsColumn::make('tags.title')->separator(','),
+                TagsColumn::make('categories.title')
+                    ->separator(','),
+                TagsColumn::make('tags.title')
+                    ->separator(','),
+                IconColumn::make('is_enabled')
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->label('date')
                     ->date()

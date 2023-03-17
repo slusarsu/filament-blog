@@ -5,10 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
-use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Group;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
@@ -18,6 +16,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
@@ -70,7 +69,7 @@ class PageResource extends Resource
                     Section::make('Images')
                         ->schema([
                             SpatieMediaLibraryFileUpload::make('media')
-                                ->collection('pages')
+                                ->collection('images')
                                 ->multiple()
                                 ->disableLabel(),
                         ])
@@ -82,8 +81,8 @@ class PageResource extends Resource
 
                     Section::make('Thumbnail')
                         ->schema([
-                            SpatieMediaLibraryFileUpload::make('thumbnail')
-                                ->collection('pages')
+                            SpatieMediaLibraryFileUpload::make('thumb')
+                                ->collection('thumbs')
                                 ->disableLabel(),
                         ])
                         ->collapsible(),
@@ -117,6 +116,8 @@ class PageResource extends Resource
                 TextColumn::make('slug'),
                 SpatieMediaLibraryImageColumn::make('thumbnail')
                     ->collection('pages'),
+                IconColumn::make('is_enabled')
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->label('date')
                     ->date()
