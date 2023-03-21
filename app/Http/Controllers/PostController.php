@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PageController extends Controller
+class PostController extends Controller
 {
-    public function page(Request $request, $slug)
+    public function post(Request $request, $slug)
     {
-        $page = Page::query()
+        $page = Post::query()
             ->where('slug', $slug)
             ->where('is_enabled', true)
             ->with('media')

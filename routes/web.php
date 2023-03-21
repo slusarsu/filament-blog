@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/{page:slug}', [PageController::class, 'page']);
+Route::get('{slug}', [PageController::class, 'page'])->name('page');
+Route::get('post/{slug}', [PostController::class, 'post'])->name('post');
+
