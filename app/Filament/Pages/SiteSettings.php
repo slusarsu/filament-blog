@@ -37,6 +37,8 @@ class SiteSettings extends Page
 
     public ?string $description = '';
 
+    public ?string $template = 'default';
+
     public bool $isEnabled = true;
 
     private mixed $templateService;
@@ -56,6 +58,7 @@ class SiteSettings extends Page
             'keyWords' => $this->valueStore->get('keyWords'),
             'description' => $this->valueStore->get('description'),
             'isEnabled' => $this->valueStore->get('isEnabled'),
+            'template' => $this->valueStore->get('template'),
         ]);
     }
 
@@ -65,6 +68,7 @@ class SiteSettings extends Page
         $this->valueStore->put('keyWords', $this->keyWords);
         $this->valueStore->put('description', $this->description);
         $this->valueStore->put('isEnabled', $this->isEnabled);
+        $this->valueStore->put('template', $this->template);
 
         Notification::make()
             ->title('Saved successfully')
@@ -75,13 +79,19 @@ class SiteSettings extends Page
 
     protected function getFormSchema(): array
     {
+
         return [
             Card::make()->schema([
                 TextInput::make('name'),
                 TextInput::make('keyWords'),
                 Textarea::make('description'),
-                Toggle::make('isEnabled')->default(true),
                 Select::make('template')
+                    ->options(
+                        $this->templateService->getAllTemplatesNames()
+                    )
+                    ->default('default')
+                    ->required(),
+                Toggle::make('isEnabled')->default(true),
             ])
         ];
 
