@@ -1,4 +1,4 @@
 
 {!! $page->content !!}
 
-{{setting()}}
+{{$siteSetting->get('name')}}

@@ -60,4 +60,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasRole(RoleEnum::dashboardAllowedRoles());
     }
+
+    public function canManageSettings(): bool
+    {
+        return $this->can('Manage Settings');
+    }
 }
