@@ -56,6 +56,13 @@ return [
             'throw' => false,
         ],
 
+        'templates' => [
+            'driver' => 'local',
+            'root' => resource_path('views/templates'),
+            'visibility' => 'public',
+            'throw' => true,
+        ],
+
     ],
 
     /*
