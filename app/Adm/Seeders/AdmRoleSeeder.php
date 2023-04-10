@@ -2,7 +2,9 @@
 
 namespace App\Adm\Seeders;
 
+use App\Adm\Enums\RoleEnum;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class AdmRoleSeeder extends Seeder
 {
@@ -11,6 +13,10 @@ class AdmRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $values = RoleEnum::allValues();
+
+        foreach ($values as $value){
+            Role::create(['name' => $value]);
+        }
     }
 }

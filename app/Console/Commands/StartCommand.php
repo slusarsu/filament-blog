@@ -35,5 +35,7 @@ class StartCommand extends Command
             $this->call('db:seed');
             $this->info("-- data added to db");
         }
+
+        $this->call('optimize:clear');
     }
 }

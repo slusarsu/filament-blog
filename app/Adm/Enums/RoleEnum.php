@@ -9,6 +9,22 @@ enum RoleEnum: string
     case WRITER = 'writer';
     case MODERATOR = 'moderator';
 
+    /**
+     * @return array
+     */
+    public static function allValues(): array
+    {
+        return [
+            self::USER->value,
+            self::ADMIN->value,
+            self::WRITER->value,
+            self::MODERATOR->value,
+        ];
+    }
+
+    /**
+     * @return array
+     */
     public static function dashboardAllowedRoles(): array
     {
         return [
@@ -18,6 +34,9 @@ enum RoleEnum: string
         ];
     }
 
+    /**
+     * @return array
+     */
     public static function usersPermissions(): array
     {
         return [

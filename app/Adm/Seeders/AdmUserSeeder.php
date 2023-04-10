@@ -19,6 +19,8 @@ class AdmUserSeeder extends Seeder
             'email' => 'admin@admin.com',
         ]);
 
-        $role = Role::create(['name' => RoleEnum::ADMIN->value]);
+        $role = Role::query()->where('name', RoleEnum::ADMIN->value)->first();
+
+        $user->assignRole($role);
     }
 }
