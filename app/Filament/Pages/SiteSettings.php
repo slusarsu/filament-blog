@@ -57,8 +57,8 @@ class SiteSettings extends Page
             'name' => $this->valueStore->get('name'),
             'keyWords' => $this->valueStore->get('keyWords'),
             'description' => $this->valueStore->get('description'),
-            'isEnabled' => $this->valueStore->get('isEnabled'),
-            'template' => $this->valueStore->get('template'),
+            'isEnabled' => $this->valueStore->get('isEnabled') ?? true,
+            'template' => $this->valueStore->get('template') ?? 'default',
         ]);
     }
 

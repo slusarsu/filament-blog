@@ -7,3 +7,13 @@ function siteSetting() {
 }
 
 
+function getTemplatePath(): string
+{
+    return 'resources/views/' . siteSetting()->get('template') .'/';
+}
+
+function templateAssetsPath(string $filePath): string
+{
+    return asset('assets/'.siteSetting()->get('template').'/'. $filePath);
+}
+

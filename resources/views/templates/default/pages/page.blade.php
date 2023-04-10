@@ -1,4 +1,8 @@
+@extends('templates.default.layouts.main')
 
-{!! $page->content !!}
+@section('content')
+    {!! $page->content !!}
 
-{{$siteSetting->get('name')}}
+    {{$siteSetting->get('name')}}
+@endsection
+
