@@ -1,10 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace App\Adm\Seeders;
 
-use App\Enums\RoleEnum;
+use App\Adm\Enums\RoleEnum;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 

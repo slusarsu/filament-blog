@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Providers;
+namespace App\Adm\Providers;
 
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 use Spatie\Valuestore\Valuestore;
-use Storage;
 
 class AdmProvider extends ServiceProvider
 {

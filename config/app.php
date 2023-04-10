@@ -198,7 +198,7 @@ return [
         /*
          * Custom Service Providers...
          */
-        App\Providers\AdmProvider::class,
+        \App\Adm\Providers\AdmProvider::class,
 
     ],
 

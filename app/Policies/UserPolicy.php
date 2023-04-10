@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Enums\RoleEnum;
+use App\Adm\Enums\RoleEnum;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
