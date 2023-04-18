@@ -12,8 +12,8 @@ function getTemplatePath(): string
     return 'resources/views/' . siteSetting()->get('template') .'/';
 }
 
-function templateAssetsPath(string $filePath): string
+function admAsset(string $filePath): string
 {
-    return asset('assets/'.siteSetting()->get('template').'/'. $filePath);
+    return asset('templates/'.siteSetting()->get('template').'/'. $filePath);
 }
 
