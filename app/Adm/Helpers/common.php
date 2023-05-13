@@ -3,7 +3,7 @@
 use Spatie\Valuestore\Valuestore;
 
 function siteSetting() {
-    return Valuestore::make(storage_path('app/site_settings.json'));
+    return Valuestore::make(app_path('Adm/Settings/site_settings.json'));
 }
 
 
