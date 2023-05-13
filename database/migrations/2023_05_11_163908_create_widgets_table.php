@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('widgets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->text('short')->nullable();
-            $table->text('content')->nullable();
-            $table->text('template')->nullable();
-            $table->string('seo_text_keys')->nullable();
-            $table->string('seo_description')->nullable();
+            $table->string('type');
+            $table->text('body')->nullable();
             $table->boolean('is_enabled')->default(true);
-            $table->softDeletesDatetime();
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('widgets');
     }
 };

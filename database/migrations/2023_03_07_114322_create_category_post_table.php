@@ -23,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('category_post', function (Blueprint $table) {
-            //
+            $table->dropIfExists('category_id');
+            $table->dropIfExists('post_id');
         });
     }
 };

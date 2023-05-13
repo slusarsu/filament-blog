@@ -2,13 +2,18 @@
 
 namespace App\Filament\Resources;
 
+use App\Adm\Services\TemplateService;
+use App\Filament\Pages\SiteSettings;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -65,7 +70,8 @@ class PageResource extends Resource
                             TinyEditor::make('content')
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
-                                ->fileAttachmentsDirectory('public/uploads')
+                                ->fileAttachmentsDirectory('public/uploads'),
+
                         ]),
 
                     Section::make('Images')
@@ -98,6 +104,8 @@ class PageResource extends Resource
                     Section::make('Settings')
                         ->schema([
                             DateTimePicker::make('created_at')->default(Carbon::now()),
+                            Select::make('template')
+                                ->options(resolve(TemplateService::class)->getCurrentTemplatePageNames()),
                             Toggle::make('is_enabled')->default(true),
                         ]),
 

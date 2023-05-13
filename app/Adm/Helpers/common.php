@@ -7,9 +7,19 @@ function siteSetting() {
 }
 
 
-function getTemplatePath(): string
+function getFullTemplatePath(): string
 {
     return 'resources/views/' . siteSetting()->get('template') .'/';
+}
+
+/**
+ * @param string $bladeName
+ * @param array $params
+ * @return string
+ */
+function admView(string $bladeName, array $params = []): string
+{
+    return view('templates.'.siteSetting()->get('template') .'.'.$bladeName, $params);
 }
 
 function admAsset(string $filePath): string

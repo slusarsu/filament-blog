@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return admView('index');
 });
 
 Route::get('{slug}', [PageController::class, 'page'])->name('page');

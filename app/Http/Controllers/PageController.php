@@ -24,6 +24,6 @@ class PageController extends Controller
     {
         $page = $this->pageService->getPageBySlug($slug);
 
-        return $this->admView('pages/page', compact('page'));
+        return admView('pages/page', compact('page'));
     }
 }

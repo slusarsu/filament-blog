@@ -2,6 +2,7 @@
 
 namespace App\Adm\Services;
 
+use Illuminate\Support\Arr;
 use Storage;
 
 class TemplateService
@@ -34,17 +35,30 @@ class TemplateService
 
     public function getAllTemplatesNames(): array
     {
-        $allTemplates = Storage::disk('templates')->directories();
-
         $templates = [];
 
-        foreach ($allTemplates as $template) {
+        foreach ($this->templatesDirectories as $template) {
             $file = $this->getTemplateSettings($template);
 
             if(!empty($file['name'])) {
                 $templates[$template] = $file['name'];
             }
 
+        }
+
+        return $templates;
+    }
+
+    public function getCurrentTemplatePageNames(): array
+    {
+        $templateName = siteSetting()->get('template');
+        $pagePaths = Storage::disk('templates')->files($templateName.'/pages');
+        $templates = [];
+        foreach ($pagePaths as $item) {
+            $itemArr = explode('/', $item);
+            $last = end($itemArr);
+            $result = str_replace('.blade.php','',$last);
+            $templates[$result] = $result;
         }
 
         return $templates;

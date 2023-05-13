@@ -21,6 +21,7 @@ class Page extends Model implements HasMedia
         'slug',
         'short',
         'content',
+        'template',
         'seo_text_keys',
         'seo_description',
         'is_enabled',
