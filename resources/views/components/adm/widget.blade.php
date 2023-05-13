@@ -1,7 +1,10 @@
-@if($widget->type == 'text')
-    {{$widget->body}}
+@if(!empty($widget))
+    @if($widget->type == 'text')
+        {{$widget->body}}
+    @endif
+
+    @if($widget->type == 'html')
+        {!! $widget->body !!}
+    @endif
 @endif
 
-@if($widget->type == 'html')
-    {!! $widget->body !!}
-@endif

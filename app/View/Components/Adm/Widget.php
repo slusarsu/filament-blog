@@ -33,7 +33,7 @@ class Widget extends Component
     public function render(): View|Closure|string
     {
         $widget = $this->getWidget();
-        
+
         return view('components.adm.widget', compact('widget'));
     }
 }

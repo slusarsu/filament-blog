@@ -25,5 +25,6 @@ class AdmProvider extends ServiceProvider
         $siteSetting = Valuestore::make(storage_path('app/site_settings.json'));
 
         View::share('siteSetting', $siteSetting);
+
     }
 }
