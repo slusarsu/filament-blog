@@ -26,4 +26,6 @@
         </div>
     </div>
 </nav>
+
+<x-adm.menu :slug="'top-menu'"/>
 <!-- Header-->

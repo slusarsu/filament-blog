@@ -39,9 +39,9 @@ class MenuItem extends Model
         return $this->belongsTo(Menu::class);
     }
 
-    public static function tree()
+    public static function tree($id)
     {
-        $allItems = MenuItem::all();
+        $allItems = MenuItem::where('menu_id', $id)->get();
 
         $rootItems = $allItems->whereNull('parent_id');
 
