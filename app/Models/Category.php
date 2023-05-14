@@ -45,4 +45,26 @@ class Category extends Model implements HasMedia
     {
         return $this->belongsToMany(Post::class);
     }
+
+    public static function tree()
+    {
+        $allCategories = Category::all();
+
+        $rootCategories = $allCategories->whereNull('parent_id');
+
+        self::formatTree($rootCategories, $allCategories);
+
+        return $rootCategories;
+    }
+
+    private static function formatTree($rootCategories, $allCategories): void
+    {
+        foreach ($rootCategories as $category) {
+            $category->sub_cat = $allCategories->where('parent_id', $category->id)->values();
+
+            if ($category->sub_cat->isNotEmpty()) {
+                self::formatTree($category->sub_cat, $allCategories);
+            }
+        }
+    }
 }

@@ -28,10 +28,13 @@ class StartCommand extends Command
     {
         $this->call('migrate');
         $this->info("-- migrations done");
+        $this->call('optimize:clear');
 
-        $user = User::where('email', 'admin@admin.com')->first();
+        $user = User::query()->where('email', 'admin@admin.com')->first();
 
         if(!$user) {
+//            $this->call('cache:forget spatie.permission.cache');
+            $this->call('cache:clear');
             $this->call('db:seed');
             $this->info("-- data added to db");
         }
