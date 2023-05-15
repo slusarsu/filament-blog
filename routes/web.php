@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::view('/welcome', 'welcome')->name('welcome');
+Route::view('/test', 'test')->name('test');
 
 Route::get('/', function () {
     return admView('index');
@@ -22,4 +23,5 @@ Route::get('/', function () {
 
 Route::get('{slug}', [PageController::class, 'page'])->name('page');
 Route::get('post/{slug}', [PostController::class, 'post'])->name('post');
+Route::get('blog', [PostController::class, 'post'])->name('post');
 

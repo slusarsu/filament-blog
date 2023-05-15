@@ -159,12 +159,13 @@ class PostResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->sortable(),
+                SpatieMediaLibraryImageColumn::make('thumbnail')
+                    ->collection('thumbs'),
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('slug'),
-                SpatieMediaLibraryImageColumn::make('thumbnail')
-                    ->collection('posts'),
+
                 TagsColumn::make('categories.title')
                     ->separator(','),
                 TagsColumn::make('tags.title')

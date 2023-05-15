@@ -19,6 +19,7 @@ class TemplateService
         if(empty($templateName)) {
             return [];
         }
+//        return include resource_path('views/templates/'.$templateName.'/settings.php') ?? [];
         return include resource_path('views/templates/'.$templateName.'/settings.php') ?? [];
     }
 

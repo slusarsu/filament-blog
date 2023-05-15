@@ -7,14 +7,21 @@ use App\Filament\Pages\SiteSettings;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
+use Closure;
+use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -74,14 +81,35 @@ class PageResource extends Resource
 
                         ]),
 
-                    Section::make('Images')
-                        ->schema([
-                            SpatieMediaLibraryFileUpload::make('media')
-                                ->collection('images')
-                                ->multiple()
-                                ->disableLabel(),
-                        ])
-                        ->collapsible(),
+                    Tabs::make('Heading')
+                        ->tabs([
+                            Tab::make('Images')
+                                ->icon('heroicon-o-film')
+                                ->schema([
+                                        Section::make('Images')
+                                        ->schema([
+                                            SpatieMediaLibraryFileUpload::make('media')
+                                                ->collection('images')
+                                                ->multiple()
+                                                ->enableReordering()
+                                                ->disableLabel(),
+                                        ])
+                                        ->collapsible(),
+                                ]),
+                            Tab::make('Custom Text Fields')
+                                ->icon('heroicon-o-document-text')
+                                ->schema([
+                                    Repeater::make('custom_text_fields')
+                                        ->schema([
+                                            TextInput::make('field_name')->lazy(),
+                                            Textarea::make('text')
+                                        ])
+                                        ->collapsible()
+                                        ->itemLabel(fn (array $state): ?string => $state['field_name'] ?? null)
+                                        ->columns(1),
+                                ]),
+                        ]),
+
 
                 ])->columnSpan(3),
 
@@ -121,12 +149,13 @@ class PageResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->sortable(),
+                SpatieMediaLibraryImageColumn::make('thumbnail')
+                    ->collection('thumbs'),
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('slug'),
-                SpatieMediaLibraryImageColumn::make('thumbnail')
-                    ->collection('pages'),
+
                 IconColumn::make('is_enabled')
                     ->boolean(),
                 TextColumn::make('created_at')

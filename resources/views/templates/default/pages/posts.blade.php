@@ -1,6 +1,5 @@
 @extends('templates.default.layouts.main')
-
 @section('content')
-111
+    <h1>Posts</h1>
 @endsection
 

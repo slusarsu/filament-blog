@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('template')->nullable();
             $table->string('seo_text_keys')->nullable();
             $table->string('seo_description')->nullable();
+            $table->text('custom_text_fields')->nullable();
             $table->boolean('is_enabled')->default(true);
             $table->softDeletesDatetime();
             $table->timestamps();

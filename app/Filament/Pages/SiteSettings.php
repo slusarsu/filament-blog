@@ -27,8 +27,6 @@ class SiteSettings extends Page
 
     protected static ?int $navigationSort = 3;
 
-    public string $path = '';
-
     protected ?Valuestore $valueStore;
 
     public ?string $name = '';
@@ -46,8 +44,7 @@ class SiteSettings extends Page
     public function __construct($id = null)
     {
         parent::__construct($id);
-        $this->path = storage_path('app/site_settings.json');
-        $this->valueStore = Valuestore::make($this->path);
+        $this->valueStore = siteSetting();
         $this->templateService = resolve(TemplateService::class);
     }
 

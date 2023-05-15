@@ -10,6 +10,11 @@ class EditPage extends EditRecord
 {
     protected static string $resource = PageResource::class;
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        return $data;
+    }
+
     protected function getActions(): array
     {
         return [

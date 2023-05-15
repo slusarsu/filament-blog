@@ -49,14 +49,18 @@ class MenuItemsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('title'),
+                TextColumn::make('id')->sortable(),
+                TextColumn::make('title')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('link'),
                 TextColumn::make('parent.title')
                     ->sortable(),
                 TextColumn::make('order')
                     ->sortable(),
                 IconColumn::make('is_enabled')
-                    ->boolean(),
+                    ->boolean()
+                    ->sortable(),
             ])
             ->filters([
                 //

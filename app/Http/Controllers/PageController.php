@@ -23,7 +23,8 @@ class PageController extends Controller
     public function page(Request $request, $slug)
     {
         $page = $this->pageService->getPageBySlug($slug);
+        $template = !empty($page->template) ? $page->template : 'page';
 
-        return admView('pages/page', compact('page'));
+        return admView('pages/'.$template, compact('page'));
     }
 }
