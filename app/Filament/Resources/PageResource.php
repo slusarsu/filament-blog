@@ -33,6 +33,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Builder as FromBuilder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -96,17 +97,36 @@ class PageResource extends Resource
                                         ])
                                         ->collapsible(),
                                 ]),
-                            Tab::make('Custom Text Fields')
+                            Tab::make('Custom Fields')
                                 ->icon('heroicon-o-document-text')
                                 ->schema([
-                                    Repeater::make('custom_text_fields')
-                                        ->schema([
-                                            TextInput::make('field_name')->lazy(),
-                                            Textarea::make('text')
+                                    FromBuilder::make('custom_fields')
+                                        ->blocks([
+                                            Block::make('text_input')
+                                                ->schema([
+                                                    TextInput::make('field_name'),
+                                                    TextInput::make('text')
+                                                ])
+                                                ->label(fn (array $state): ?string => $state['field_name'] ?? null),
+                                            Block::make('paragraph')
+                                                ->schema([
+                                                    TextInput::make('field_name'),
+                                                    Textarea::make('content')
+                                                        ->label('Paragraph')
+                                                        ->required(),
+                                                ]),
+                                            Block::make('image')
+                                                ->schema([
+                                                    TextInput::make('field_name'),
+                                                    FileUpload::make('url')
+                                                        ->label('Image')
+                                                        ->image()
+                                                        ->required(),
+                                                    TextInput::make('alt')
+                                                        ->label('Alt text')
+                                                        ->required(),
+                                                ]),
                                         ])
-                                        ->collapsible()
-                                        ->itemLabel(fn (array $state): ?string => $state['field_name'] ?? null)
-                                        ->columns(1),
                                 ]),
                         ]),
 
@@ -123,18 +143,20 @@ class PageResource extends Resource
                         ])
                         ->collapsible(),
 
-                    Section::make('SEO')
-                        ->schema([
-                            Textarea::make('seo_text_keys')->columnSpan('full'),
-                            Textarea::make('seo_description')->columnSpan('full'),
-                        ]),
-
                     Section::make('Settings')
                         ->schema([
                             DateTimePicker::make('created_at')->default(Carbon::now()),
                             Select::make('template')
-                                ->options(resolve(TemplateService::class)->getCurrentTemplatePageNames()),
+                                ->options(resolve(TemplateService::class)->getCurrentTemplatePageNames())
+                                ->required(),
                             Toggle::make('is_enabled')->default(true),
+                        ]),
+
+
+                    Section::make('SEO')
+                        ->schema([
+                            Textarea::make('seo_text_keys')->columnSpan('full'),
+                            Textarea::make('seo_description')->columnSpan('full'),
                         ]),
 
                 ])->columnSpan(1),

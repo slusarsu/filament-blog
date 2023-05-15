@@ -27,7 +27,7 @@ function admAsset(string $filePath): string
 
 function admMenu($slug) {
     $menu = Menu::query()->where('slug', $slug)->with('menu_items')->first();
-    return count($menu->menu_items) ? MenuItem::tree($menu->id) : $menu->menu_items ?? [];
+    return !empty($menu->menu_items) ? MenuItem::tree($menu->id) : $menu->menu_items ?? [];
 }
 
 function admPageBySlug($slug) {

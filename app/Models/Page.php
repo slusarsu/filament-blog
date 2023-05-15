@@ -22,13 +22,15 @@ class Page extends Model implements HasMedia
         'short',
         'content',
         'template',
+        'custom_fields',
         'seo_text_keys',
         'seo_description',
         'is_enabled',
     ];
 
     protected $casts = [
-        'is_enabled' => 'boolean'
+        'is_enabled' => 'boolean',
+        'custom_fields' => 'array'
     ];
 
     public function user(): BelongsTo
