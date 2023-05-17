@@ -2,7 +2,6 @@
 
 namespace App\Adm\Services;
 
-use Illuminate\Support\Arr;
 use Storage;
 
 class TemplateService
@@ -14,13 +13,25 @@ class TemplateService
         $this->templatesDirectories = Storage::disk('templates')->directories();
     }
 
+    public function templateRecoursePath(): string
+    {
+        return 'templates.'.siteSetting()->get('template');
+    }
+
     public function getTemplateSettings(string $templateName): array
     {
         if(empty($templateName)) {
             return [];
         }
-//        return include resource_path('views/templates/'.$templateName.'/settings.php') ?? [];
         return include resource_path('views/templates/'.$templateName.'/settings.php') ?? [];
+    }
+
+    public function getTemplateFunctions(string $templateName)
+    {
+        if(empty($templateName)) {
+            return '';
+        }
+        return include resource_path('views/templates/'.$templateName.'/functions.php');
     }
 
     public function getAllTemplatesSettings(): array
@@ -44,7 +55,6 @@ class TemplateService
             if(!empty($file['name'])) {
                 $templates[$template] = $file['name'];
             }
-
         }
 
         return $templates;
@@ -63,5 +73,10 @@ class TemplateService
         }
 
         return $templates;
+    }
+
+    public function templateView(string $bladeName, array $params = [])
+    {
+        return view($this->templateRecoursePath() .'.'.$bladeName, $params);
     }
 }

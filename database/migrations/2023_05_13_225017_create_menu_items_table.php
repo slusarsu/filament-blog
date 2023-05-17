@@ -21,7 +21,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->integer('order')->default(0);
             $table->string('title');
-            $table->string('link');
+            $table->string('link')->nullable();
             $table->boolean('is_enabled')->default(true);
             $table->timestamps();
         });

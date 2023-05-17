@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Adm;
 
+use App\Adm\Services\TemplateService;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -9,6 +10,7 @@ use Illuminate\View\Component;
 class Header extends Component
 {
     private array $siteSetting;
+    private array $templateService;
 
     /**
      * Create a new component instance.

@@ -1,4 +1,5 @@
 @include('templates.default.parts.header')
+@include('templates.default.parts.top-menu')
 
 <x-adm.widget :slug="'header-block'"/>
 

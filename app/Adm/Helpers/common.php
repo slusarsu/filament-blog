@@ -1,6 +1,8 @@
 <?php
 
 use App\Adm\Services\PageService;
+use App\Adm\Services\PostService;
+use App\Adm\Services\TemplateService;
 use App\Models\Menu;
 use App\Models\MenuItem;
 use App\Models\Page;
@@ -17,24 +19,15 @@ function getFullTemplatePath(): string
 
 function admView(string $bladeName, array $params = [])
 {
-    return view('templates.'.siteSetting()->get('template') .'.'.$bladeName, $params);
+    return resolve(TemplateService::class)->templateView($bladeName, $params);
 }
 
 function admAsset(string $filePath): string
 {
-    return asset('templates/'.siteSetting()->get('template').'/'. $filePath);
+    return asset(resolve(TemplateService::class)->templateRecoursePath().'/'. $filePath);
 }
 
 function admMenu($slug) {
     $menu = Menu::query()->where('slug', $slug)->with('menu_items')->first();
     return !empty($menu->menu_items) ? MenuItem::tree($menu->id) : $menu->menu_items ?? [];
 }
-
-function admPageBySlug($slug) {
-    return resolve(PageService::class)->getPageBySlug($slug);
-}
-
-function admPageById($id) {
-    return resolve(PageService::class)->getPageById($id);
-}
-

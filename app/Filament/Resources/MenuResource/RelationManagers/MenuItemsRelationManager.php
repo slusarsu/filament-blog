@@ -30,8 +30,7 @@ class MenuItemsRelationManager extends RelationManager
                 Card::make()->schema([
                     TextInput::make('title')
                         ->required(),
-                    TextInput::make('link')
-                        ->required(),
+                    TextInput::make('link'),
                     Select::make('parent_id')
                         ->label('Parent')
                         ->options(MenuItem::all()->pluck('title', 'id'))

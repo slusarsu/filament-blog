@@ -16,9 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();
-
-        app()->call(AdmPermissionSeeder::class);
-        app()->call(AdmRoleSeeder::class);
-        app()->call(AdmUserSeeder::class);
+         \App\Models\Post::factory(50)->create();
+//
+//        app()->call(AdmPermissionSeeder::class);
+//        app()->call(AdmRoleSeeder::class);
+//        app()->call(AdmUserSeeder::class);
     }
 }

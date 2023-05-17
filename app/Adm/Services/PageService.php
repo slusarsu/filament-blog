@@ -19,15 +19,10 @@ class PageService
 
     public function getPageBySlug(string $slug): object
     {
-        $page = $this->model
-            ->where('slug', $slug)
-            ->where('is_enabled', true)
-            ->where('created_at', '<=',Carbon::now())
-            ->with('media')
-            ->first();
+        $page = $this->model->where('slug', $slug)->active()->with('media')->first();
 
         if($page) {
-            return $this->getMediaForPage($page);
+            return $this->getMediaForRecord($page);
         }
 
         return abort(404);
@@ -35,29 +30,24 @@ class PageService
 
     public function getPageById(string $id): object
     {
-        $page = $this->model
-            ->where('slug', $id)
-            ->where('is_enabled', true)
-            ->where('created_at', '<=',Carbon::now())
-            ->with('media')
-            ->first();
+        $page = $this->model->where('id', $id)->active()->with('media')->first();
 
         if($page) {
-            return $this->getMediaForPage($page);
+            return $this->getMediaForRecord($page);
         }
 
         return abort(404);
     }
 
-    public function getMediaForPage(Page $page): Page
+    public function getMediaForRecord(Page $record): Page
     {
-        if(!$page) {
+        if(!$record) {
             throw new NotFoundHttpException();
         } else {
-            $page->thumb = $page->getMedia('thumbs')->first();
-            $page->images = $page->getMedia('images')->all();
+            $record->thumb = $record->getMedia('thumbs')->first();
+            $record->images = $record->getMedia('images')->all();
         }
 
-        return $page;
+        return $record;
     }
 }
