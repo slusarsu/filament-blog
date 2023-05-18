@@ -29,7 +29,7 @@ class TemplateService
     public function getTemplateFunctions(string $templateName)
     {
         if(empty($templateName)) {
-            return '';
+            return null;
         }
         return include resource_path('views/templates/'.$templateName.'/functions.php');
     }
@@ -50,7 +50,7 @@ class TemplateService
         $templates = [];
 
         foreach ($this->templatesDirectories as $template) {
-            $file = $this->getTemplateSettings($template);
+            $file = $this->getTemplateSetthumbtings($template);
 
             if(!empty($file['name'])) {
                 $templates[$template] = $file['name'];

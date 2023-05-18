@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method active
@@ -62,5 +63,11 @@ class Post extends Model implements HasMedia
     {
         $query->where('is_enabled', true)
         ->where('created_at', '<=',Carbon::now());
+    }
+    public function postMedia()
+    {
+        $this->thumb = $this->getMedia('thumbs')->first();
+        $this->images = $this->getMedia('images')->all();
+        return $this;
     }
 }

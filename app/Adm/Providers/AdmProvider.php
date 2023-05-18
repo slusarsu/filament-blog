@@ -2,6 +2,7 @@
 
 namespace App\Adm\Providers;
 
+use App\Adm\Services\TemplateService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Valuestore\Valuestore;
@@ -21,12 +22,12 @@ class AdmProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
-        $siteSetting = Valuestore::make(storage_path('app/site_settings.json'));
-
-        View::share('siteSetting', $siteSetting);
-        $templateName = siteSetting()->get('template');
-        include resource_path('views/templates/'.$templateName.'/functions.php');
+        $admSite = siteSetting()->all();
+        $admTpl = resolve(TemplateService::class)->getTemplateSettings($admSite['template']);
+        resolve(TemplateService::class)->getTemplateFunctions($admSite['template']);
+        View::share('admSite', $admSite);
+        View::share('admTpl', $admTpl);
+//        include resource_path('views/templates/'.$admSite['template'].'/functions.php');
 
     }
 }
