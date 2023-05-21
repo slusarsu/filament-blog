@@ -40,6 +40,11 @@ class PostResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    protected static function getNavigationLabel(): string
+    {
+        return trans('adm/dashboard.posts');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

@@ -10,6 +10,11 @@ class ListCategories extends ListRecords
 {
     protected static string $resource = CategoryResource::class;
 
+    protected function getTitle(): string
+    {
+        return trans('adm/dashboard.categories');
+    }
+
     protected function getActions(): array
     {
         return [

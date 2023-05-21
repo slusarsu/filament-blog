@@ -24,6 +24,11 @@ class TagResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
+    protected static function getNavigationLabel(): string
+    {
+        return trans('adm/dashboard.tags');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -66,14 +71,14 @@ class TagResource extends Resource
             ])
             ->defaultSort('id', 'desc');
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -81,5 +86,5 @@ class TagResource extends Resource
             'create' => Pages\CreateTag::route('/create'),
             'edit' => Pages\EditTag::route('/{record}/edit'),
         ];
-    }    
+    }
 }

@@ -10,6 +10,11 @@ class ListRoles extends ListRecords
 {
     protected static string $resource = RoleResource::class;
 
+    protected function getTitle(): string
+    {
+        return trans('adm/dashboard.roles');
+    }
+
     protected function getActions(): array
     {
         return [

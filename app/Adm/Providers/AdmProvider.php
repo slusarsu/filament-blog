@@ -5,7 +5,6 @@ namespace App\Adm\Providers;
 use App\Adm\Services\TemplateService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Valuestore\Valuestore;
 
 class AdmProvider extends ServiceProvider
 {
@@ -27,7 +26,6 @@ class AdmProvider extends ServiceProvider
         resolve(TemplateService::class)->getTemplateFunctions($admSite['template']);
         View::share('admSite', $admSite);
         View::share('admTpl', $admTpl);
-//        include resource_path('views/templates/'.$admSite['template'].'/functions.php');
 
     }
 }

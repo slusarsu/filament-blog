@@ -10,6 +10,11 @@ class ListPermissions extends ListRecords
 {
     protected static string $resource = PermissionResource::class;
 
+    protected function getTitle(): string
+    {
+        return trans('adm/dashboard.permissions');
+    }
+
     protected function getActions(): array
     {
         return [

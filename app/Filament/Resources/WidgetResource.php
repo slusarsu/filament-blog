@@ -33,6 +33,11 @@ class WidgetResource extends Resource
 
     protected static ?int $navigationSort = 5;
 
+    protected static function getNavigationLabel(): string
+    {
+        return trans('adm/dashboard.widgets');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -90,14 +95,14 @@ class WidgetResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -105,5 +110,5 @@ class WidgetResource extends Resource
             'create' => Pages\CreateWidget::route('/create'),
             'edit' => Pages\EditWidget::route('/{record}/edit'),
         ];
-    }    
+    }
 }

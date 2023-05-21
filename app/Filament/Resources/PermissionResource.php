@@ -27,6 +27,11 @@ class PermissionResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
+    protected static function getNavigationLabel(): string
+    {
+        return trans('adm/dashboard.permissions');
+    }
+
     public static function form(Form $form): Form
     {
         return $form

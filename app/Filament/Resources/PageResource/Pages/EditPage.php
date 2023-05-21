@@ -15,6 +15,22 @@ class EditPage extends EditRecord
         return $data;
     }
 
+    public function getRecordTitle(): string
+    {
+        return trans('adm/dashboard.page');
+    }
+
+    public function getModelLabel(): string
+    {
+        $resource = static::getResource();
+
+        if (! $resource::hasRecordTitle()) {
+            return Str::headline($resource::getModelLabel());
+        }
+
+        return $resource::getRecordTitle($this->getRecord());
+    }
+
     protected function getActions(): array
     {
         return [

@@ -50,7 +50,7 @@ class TemplateService
         $templates = [];
 
         foreach ($this->templatesDirectories as $template) {
-            $file = $this->getTemplateSetthumbtings($template);
+            $file = $this->getAllTemplatesSettings($template);
 
             if(!empty($file['name'])) {
                 $templates[$template] = $file['name'];

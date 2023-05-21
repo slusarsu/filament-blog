@@ -23,8 +23,6 @@ class SiteSettings extends Page
 
     protected static string $view = 'filament.pages.site-settings';
 
-    protected ?string $heading = 'Site Settings';
-
     protected static ?int $navigationSort = 3;
 
     protected ?Valuestore $valueStore;
@@ -46,6 +44,12 @@ class SiteSettings extends Page
         parent::__construct($id);
         $this->valueStore = siteSetting();
         $this->templateService = resolve(TemplateService::class);
+        $this->heading = trans('adm/dashboard.site_settings');
+    }
+
+    protected static function getNavigationLabel(): string
+    {
+        return trans('adm/dashboard.site_settings');
     }
 
     public function mount(): void
@@ -79,16 +83,16 @@ class SiteSettings extends Page
 
         return [
             Card::make()->schema([
-                TextInput::make('name'),
-                TextInput::make('keyWords'),
-                Textarea::make('description'),
-                Select::make('template')
+                TextInput::make('name')->label(trans('adm/form.name')),
+                TextInput::make('keyWords')->label(trans('adm/form.key_words')),
+                Textarea::make('description')->label(trans('adm/form.description')),
+                Select::make('template')->label(trans('adm/form.template'))
                     ->options(
                         $this->templateService->getAllTemplatesNames()
                     )
                     ->default('default')
                     ->required(),
-                Toggle::make('isEnabled')->default(true),
+                Toggle::make('isEnabled')->default(true)->label(trans('adm/form.is_enabled')),
             ])
         ];
 

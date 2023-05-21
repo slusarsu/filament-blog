@@ -10,6 +10,11 @@ class ListTags extends ListRecords
 {
     protected static string $resource = TagResource::class;
 
+    protected function getTitle(): string
+    {
+        return trans('adm/dashboard.tags');
+    }
+
     protected function getActions(): array
     {
         return [

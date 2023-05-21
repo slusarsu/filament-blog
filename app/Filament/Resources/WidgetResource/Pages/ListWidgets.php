@@ -10,6 +10,10 @@ class ListWidgets extends ListRecords
 {
     protected static string $resource = WidgetResource::class;
 
+    protected function getTitle(): string
+    {
+        return trans('adm/dashboard.widgets');
+    }
     protected function getActions(): array
     {
         return [

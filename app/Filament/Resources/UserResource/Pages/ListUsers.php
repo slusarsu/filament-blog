@@ -10,6 +10,10 @@ class ListUsers extends ListRecords
 {
     protected static string $resource = UserResource::class;
 
+    protected function getTitle(): string
+    {
+        return trans('adm/dashboard.users');
+    }
     protected function getActions(): array
     {
         return [

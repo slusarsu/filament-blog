@@ -10,6 +10,11 @@ class ListPages extends ListRecords
 {
     protected static string $resource = PageResource::class;
 
+    protected function getTitle(): string
+    {
+        return trans('adm/dashboard.pages');
+    }
+
     protected function getActions(): array
     {
         return [

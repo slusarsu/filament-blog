@@ -10,6 +10,11 @@ class ListPosts extends ListRecords
 {
     protected static string $resource = PostResource::class;
 
+    protected function getTitle(): string
+    {
+        return trans('adm/dashboard.posts');
+    }
+
     protected function getActions(): array
     {
         return [

@@ -31,6 +31,11 @@ class UserResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    protected static function getNavigationLabel(): string
+    {
+        return trans('adm/dashboard.users');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
