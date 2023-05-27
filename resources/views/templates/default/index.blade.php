@@ -10,8 +10,11 @@
 
                 <div class="col-md-6 g-4">
                     <div class="card p-2" id="post-{{$post->id}}" wire:change="100%">
-                        <img src="{{$post->getFirstMediaUrl('thumbs')}}" class="card-img-top" alt="...">
-                        <h5 class="card-title my-2">{{$post->title}}</h5>
+                        <img src="{{$post->thumb()}}" class="card-img-top" alt="...">
+                        <a href="{{$post->url()}}">
+                            <h5 class="card-title my-2">{{$post->title}}</h5>
+                        </a>
+
                         <div class="card-body p-0">
                             <p class="card-text">
                                 {{$post->short}}

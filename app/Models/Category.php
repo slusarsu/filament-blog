@@ -25,6 +25,7 @@ class Category extends Model implements HasMedia
         'seo_text_keys',
         'seo_description',
         'is_enabled',
+        'lang',
     ];
 
     protected $casts = [

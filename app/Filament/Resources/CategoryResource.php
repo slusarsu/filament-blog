@@ -51,24 +51,28 @@ class CategoryResource extends Resource
                     Card::make()
                         ->schema([
                             TextInput::make('title')
+                                ->label(trans('adm/form.title'))
                                 ->required()
                                 ->lazy()
                                 ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null),
 
                             TextInput::make('slug')
+                                ->label(trans('adm/form.slug'))
                                 ->required()
                                 ->unique(self::getModel(), 'slug', ignoreRecord: true),
 
                             TextInput::make('order')
+                                ->label(trans('adm/form.order'))
                                 ->integer(true)
                                 ->default(0),
 
                             Select::make('parent_id')
-                                ->label('Parent')
+                                ->label(trans('adm/form.parent'))
                                 ->options(self::getModel()::all()->pluck('title', 'id'))
                                 ->searchable(),
 
                             TinyEditor::make('content')
+                                ->label(trans('adm/form.content'))
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
                                 ->fileAttachmentsDirectory('public/uploads')
@@ -76,8 +80,12 @@ class CategoryResource extends Resource
 
                     Section::make('SEO')
                         ->schema([
-                            Textarea::make('seo_text_keys')->columnSpan('full'),
-                            Textarea::make('seo_description')->columnSpan('full'),
+                            Textarea::make('seo_text_keys')
+                                ->label(trans('adm/form.seo_text_keys'))
+                                ->columnSpan('full'),
+                            Textarea::make('seo_description')
+                                ->label(trans('adm/form.seo_description'))
+                                ->columnSpan('full'),
                         ])->collapsible(),
 
 
@@ -96,8 +104,19 @@ class CategoryResource extends Resource
 
                     Section::make('Settings')
                         ->schema([
-                            DateTimePicker::make('created_at')->default(Carbon::now()),
-                            Toggle::make('is_enabled')->default(true)
+                            DateTimePicker::make('created_at')
+                                ->label(trans('adm/form.created_at'))
+                                ->default(Carbon::now()),
+
+                            Select::make('lang')
+                                ->label(trans('adm/form.lang'))
+                                ->options(
+                                    admLanguages()
+                                )
+                                ->default(admDefaultLanguage()),
+                            Toggle::make('is_enabled')
+                                ->label(trans('adm/form.is_enabled'))
+                                ->default(true),
                         ]),
 
                 ])->columnSpan(1),
@@ -111,21 +130,31 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')
-                    ->sortable(),
-                TextColumn::make('title')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('slug'),
-                TextColumn::make('order')
-                    ->sortable(),
-                TextColumn::make('parent.title')
+                    ->label(trans('adm/form.id'))
                     ->sortable(),
                 SpatieMediaLibraryImageColumn::make('thumbnail')
+                    ->label(trans('adm/form.thumbnail'))
                     ->collection('categories'),
+                TextColumn::make('title')
+                    ->label(trans('adm/form.title'))
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('slug')
+                    ->label(trans('adm/form.slug')),
+                TextColumn::make('order')
+                    ->label(trans('adm/form.order'))
+                    ->sortable(),
+                TextColumn::make('parent.title')
+                    ->label(trans('adm/form.title'))
+                    ->sortable(),
                 IconColumn::make('is_enabled')
+                    ->label(trans('adm/form.is_enabled'))
                     ->boolean(),
+                TextColumn::make('lang')
+                    ->label(trans('adm/form.lang'))
+                    ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('date')
+                    ->label(trans('adm/form.date'))
                     ->sortable()
                     ->date(),
             ])

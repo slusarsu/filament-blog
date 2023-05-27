@@ -16,6 +16,7 @@ class Widget extends Model
         'type',
         'body',
         'is_enabled',
+        'lang',
     ];
 
     protected $casts = [

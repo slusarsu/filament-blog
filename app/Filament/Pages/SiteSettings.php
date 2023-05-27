@@ -60,6 +60,7 @@ class SiteSettings extends Page
             'description' => $this->valueStore->get('description'),
             'isEnabled' => $this->valueStore->get('isEnabled') ?? true,
             'template' => $this->valueStore->get('template') ?? 'default',
+            'default_language' => $this->valueStore->get('default_language') ?? 'en',
         ]);
     }
 
@@ -70,6 +71,7 @@ class SiteSettings extends Page
         $this->valueStore->put('description', $this->description);
         $this->valueStore->put('isEnabled', $this->isEnabled);
         $this->valueStore->put('template', $this->template);
+        $this->valueStore->put('default_language', $this->default_language);
 
         Notification::make()
             ->title('Saved successfully')
@@ -93,6 +95,11 @@ class SiteSettings extends Page
                     ->default('default')
                     ->required(),
                 Toggle::make('isEnabled')->default(true)->label(trans('adm/form.is_enabled')),
+                Select::make('default_language')->label(trans('adm/form.default_lang'))
+                    ->options(
+                        admLanguages()
+                    )
+                    ->required(),
             ])
         ];
 

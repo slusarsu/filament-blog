@@ -2,24 +2,27 @@
 
 namespace App\Adm\Controllers;
 
+use App\Adm\Services\PostService;
+use App\Adm\Traits\AdmViewTrait;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    use AdmViewTrait;
+    private PostService $postService;
+
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
+
     public function post(Request $request, $slug)
     {
-        $page = Post::query()
-            ->where('slug', $slug)
-            ->where('is_enabled', true)
-            ->with('media')
-            ->first();
+        $post = $this->postService->oneBySlug($slug);
+        $thumb = $post->thumb();
+        $images = $post->images();
 
-        if($page) {
-            $page->thumb = $page->getMedia('thumbs')->first();
-            $page->images = $page->getMedia('images')->all();
-        }
-
-        return view('page', compact('page'));
+        return admView('posts/post', compact('post', 'images', 'thumb'));
     }
 }

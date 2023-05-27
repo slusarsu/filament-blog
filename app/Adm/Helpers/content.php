@@ -3,12 +3,32 @@
 use App\Adm\Services\PageService;
 use App\Adm\Services\PostService;
 
-function admPageBySlug($slug) {
-    return resolve(PageService::class)->getPageBySlug($slug);
+function admLocales(): array
+{
+    return config('filament-language-switch', 'locales')['locales'];
+}
+function admLanguages(): array
+{
+    $languages = [];
+
+    foreach (admLocales() as $key => $locale) {
+        $languages[$key] = $locale['native'];
+    }
+
+    return $languages;
+}
+
+function admPageBySlug(string $slug = '') {
+
+    if(empty($slug)) {
+        $slug = request()->path();
+    }
+
+    return resolve(PageService::class)->oneBySlug($slug);
 }
 
 function admPageById($id) {
-    return resolve(PageService::class)->getPageById($id);
+    return resolve(PageService::class)->oneById($id);
 }
 
 function admAllPosts(?int $paginateCount = 0, ?array $params = []) {

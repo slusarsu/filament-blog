@@ -13,6 +13,7 @@ class Menu extends Model
         'title',
         'slug',
         'is_enabled',
+        'lang',
     ];
     protected $casts = [
         'is_enabled' => 'boolean'

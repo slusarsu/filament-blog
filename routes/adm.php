@@ -23,5 +23,4 @@ Route::get('/', function () {
 
 Route::get('{slug}', [PageController::class, 'page'])->name('page');
 Route::get('post/{slug}', [PostController::class, 'post'])->name('post');
-Route::get('blog', [PostController::class, 'post'])->name('post');
 

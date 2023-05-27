@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('type');
             $table->text('body')->nullable();
             $table->boolean('is_enabled')->default(true);
+            $table->string('lang')->nullable();
             $table->timestamps();
         });
     }

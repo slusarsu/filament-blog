@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->boolean('is_enabled')->default(true);
+            $table->string('lang')->nullable();
             $table->timestamps();
         });
     }

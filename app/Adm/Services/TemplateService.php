@@ -23,7 +23,7 @@ class TemplateService
         if(empty($templateName)) {
             return [];
         }
-        return include resource_path('views/templates/'.$templateName.'/settings.php') ?? [];
+        return include resource_path('views/templates/'.$templateName.'/inc/settings.php') ?? [];
     }
 
     public function getTemplateFunctions(string $templateName)
@@ -31,7 +31,7 @@ class TemplateService
         if(empty($templateName)) {
             return null;
         }
-        return include resource_path('views/templates/'.$templateName.'/functions.php');
+        return include resource_path('views/templates/'.$templateName.'/inc/functions.php');
     }
 
     public function getAllTemplatesSettings(): array
@@ -52,8 +52,10 @@ class TemplateService
         foreach ($this->templatesDirectories as $template) {
             $file = $this->getAllTemplatesSettings($template);
 
-            if(!empty($file['name'])) {
-                $templates[$template] = $file['name'];
+            if(!empty($file[$template]['name'])) {
+                $templates[$template] = $file[$template]['name'];
+            } else {
+                $templates[$template] = $template;
             }
         }
 

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('seo_description')->nullable();
             $table->json('custom_fields')->nullable();
             $table->boolean('is_enabled')->default(true);
+            $table->string('lang')->nullable();
             $table->softDeletesDatetime();
             $table->timestamps();
         });

@@ -28,6 +28,7 @@ class Page extends Model implements HasMedia
         'seo_text_keys',
         'seo_description',
         'is_enabled',
+        'lang',
     ];
 
     protected $casts = [
@@ -55,5 +56,23 @@ class Page extends Model implements HasMedia
         }
 
         return $fields;
+    }
+
+    public function images(): array
+    {
+        $media = $this->getMedia('images');
+
+        $images = [];
+
+        foreach ($media as $image) {
+            $images[] = $image->getUrl();
+        }
+
+        return $images;
+    }
+
+    public function thumb(): string
+    {
+        return $this->getFirstMediaUrl('thumbs');
     }
 }

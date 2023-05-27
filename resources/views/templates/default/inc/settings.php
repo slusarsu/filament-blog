@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'name' => 'default',
+    'name' => 'default!',
     'author' => 'Me'
 ];

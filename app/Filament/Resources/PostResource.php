@@ -54,17 +54,20 @@ class PostResource extends Resource
                     Card::make()
                         ->schema([
                             TextInput::make('title')
+                                ->label(trans('adm/form.title'))
                                 ->required()
                                 ->lazy()
                                 ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null)
                                 ->columnSpanFull(),
 
                             TextInput::make('slug')
+                                ->label(trans('adm/form.slug'))
                                 ->required()
                                 ->unique(self::getModel(), 'slug', ignoreRecord: true)
                                 ->columnSpanFull(),
 
                             TinyEditor::make('short')
+                                ->label(trans('adm/form.short'))
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
                                 ->fileAttachmentsDirectory('public/uploads')
@@ -73,6 +76,7 @@ class PostResource extends Resource
                     Section::make('Content')
                         ->schema([
                             TinyEditor::make('content')
+                                ->label(trans('adm/form.content'))
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
                                 ->fileAttachmentsDirectory('public/uploads')
@@ -94,38 +98,50 @@ class PostResource extends Resource
                     Section::make('Taxonomy')
                         ->schema([
                             Select::make('categories')
+                                ->label(trans('adm/form.categories'))
                                 ->multiple()
                                 ->preload()
                                 ->relationship('categories', 'title')
                                 ->createOptionForm([
                                     TextInput::make('title')
+                                        ->label(trans('adm/form.title'))
                                         ->required()
                                         ->lazy()
                                         ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null)
                                         ->columnSpanFull(),
 
                                     TextInput::make('slug')
+                                        ->label(trans('adm/form.slug'))
                                         ->required()
                                         ->unique(Category::class, 'slug', ignoreRecord: true)->columnSpanFull(),
 
                                     Select::make('parent_id')
-                                        ->label('Parent')
+                                        ->label(trans('adm/form.parent'))
                                         ->options(Category::all()->pluck('title', 'id'))
-                                        ->searchable()
+                                        ->searchable(),
+                                    Select::make('lang')
+                                        ->label(trans('adm/form.lang'))
+                                        ->options(
+                                            admLanguages()
+                                        )
+                                        ->default(admDefaultLanguage()),
                                 ]),
 
                             Select::make('tags')
+                                ->label(trans('adm/form.tags'))
                                 ->multiple()
                                 ->preload()
                                 ->relationship('tags', 'title')
                                 ->createOptionForm([
                                     TextInput::make('title')
+                                        ->label(trans('adm/form.title'))
                                         ->required()
                                         ->lazy()
                                         ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null)
                                         ->columnSpanFull(),
 
                                     TextInput::make('slug')
+                                        ->label(trans('adm/form.slug'))
                                         ->required()
                                         ->unique(Tag::class, 'slug', ignoreRecord: true)->columnSpanFull(),
                                 ])
@@ -142,14 +158,28 @@ class PostResource extends Resource
 
                     Section::make('SEO')
                         ->schema([
-                            Textarea::make('seo_text_keys')->columnSpan('full'),
-                            Textarea::make('seo_description')->columnSpan('full'),
+                            Textarea::make('seo_text_keys')
+                                ->label(trans('adm/form.seo_text_keys'))
+                                ->columnSpan('full'),
+                            Textarea::make('seo_description')
+                                ->label(trans('adm/form.seo_description'))
+                                ->columnSpan('full'),
                         ]),
 
                     Section::make('Settings')
                         ->schema([
-                            DateTimePicker::make('created_at')->default(Carbon::now()),
-                            Toggle::make('is_enabled')->default(true)
+                            DateTimePicker::make('created_at')
+                                ->label(trans('adm/form.date'))
+                                ->default(Carbon::now()),
+                            Select::make('lang')
+                                ->label(trans('adm/form.lang'))
+                                ->options(
+                                    admLanguages()
+                                )
+                                ->default(admDefaultLanguage()),
+                            Toggle::make('is_enabled')
+                                ->label(trans('adm/form.is_enabled'))
+                                ->default(true)
                         ]),
 
                 ])->columnSpan(1),
@@ -163,22 +193,32 @@ class PostResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')
+                    ->label(trans('adm/form.id'))
                     ->sortable(),
                 SpatieMediaLibraryImageColumn::make('thumbnail')
+                    ->label(trans('adm/form.thumbnail'))
                     ->collection('thumbs'),
                 TextColumn::make('title')
+                    ->label(trans('adm/form.title'))
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('slug'),
+                TextColumn::make('slug')
+                    ->label(trans('adm/form.slug')),
 
                 TagsColumn::make('categories.title')
+                    ->label(trans('adm/form.categories'))
                     ->separator(','),
                 TagsColumn::make('tags.title')
+                    ->label(trans('adm/form.tags'))
                     ->separator(','),
                 IconColumn::make('is_enabled')
+                    ->label(trans('adm/form.is_enabled'))
                     ->boolean(),
+                TextColumn::make('lang')
+                    ->label(trans('adm/form.lang'))
+                    ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('date')
+                    ->label(trans('adm/form.date'))
                     ->date()
                     ->sortable(),
             ])

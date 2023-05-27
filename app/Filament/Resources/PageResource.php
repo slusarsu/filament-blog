@@ -63,12 +63,14 @@ class PageResource extends Resource
                     Card::make()
                         ->schema([
                             TextInput::make('title')
+                                ->label(trans('adm/form.title'))
                                 ->required()
                                 ->lazy()
                                 ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null)
                                 ->columnSpanFull(),
 
                             TextInput::make('slug')
+                                ->label(trans('adm/form.slug'))
                                 ->required()
                                 ->unique(self::getModel(), 'slug', ignoreRecord: true)->columnSpanFull(),
 
@@ -76,6 +78,7 @@ class PageResource extends Resource
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
                                 ->fileAttachmentsDirectory('public/uploads')
+                                ->label(trans('adm/form.short'))
                         ]),
 
                     Section::make('Content')
@@ -83,8 +86,8 @@ class PageResource extends Resource
                             TinyEditor::make('content')
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
-                                ->fileAttachmentsDirectory('public/uploads'),
-
+                                ->fileAttachmentsDirectory('public/uploads')
+                                ->label(trans('adm/form.content')),
                         ]),
 
                     Tabs::make('Heading')
@@ -143,6 +146,7 @@ class PageResource extends Resource
                     Section::make('Thumbnail')
                         ->schema([
                             SpatieMediaLibraryFileUpload::make('thumb')
+                                ->label(trans('adm/form.thumbnail'))
                                 ->collection('thumbs')
                                 ->disableLabel(),
                         ])
@@ -150,18 +154,33 @@ class PageResource extends Resource
 
                     Section::make('Settings')
                         ->schema([
-                            DateTimePicker::make('created_at')->default(Carbon::now()),
+                            DateTimePicker::make('created_at')
+                                ->label(trans('adm/form.created_at'))
+                                ->default(Carbon::now()),
                             Select::make('template')
+                                ->label(trans('adm/form.template'))
                                 ->options(resolve(TemplateService::class)->getCurrentTemplatePageNames())
                                 ->required(),
-                            Toggle::make('is_enabled')->default(true),
+                            Select::make('lang')
+                                ->label(trans('adm/form.lang'))
+                                ->options(
+                                    admLanguages()
+                                )
+                                ->default(admDefaultLanguage()),
+                            Toggle::make('is_enabled')
+                                ->label(trans('adm/form.is_enabled'))
+                                ->default(true),
                         ]),
 
 
                     Section::make('SEO')
                         ->schema([
-                            Textarea::make('seo_text_keys')->columnSpan('full'),
-                            Textarea::make('seo_description')->columnSpan('full'),
+                            Textarea::make('seo_text_keys')
+                                ->label(trans('adm/form.seo_text_keys'))
+                                ->columnSpan('full'),
+                            Textarea::make('seo_description')
+                                ->label(trans('adm/form.seo_text_keys'))
+                                ->columnSpan('full'),
                         ]),
 
                 ])->columnSpan(1),
@@ -175,17 +194,26 @@ class PageResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')
+                    ->label(trans('adm/form.id'))
                     ->sortable(),
                 SpatieMediaLibraryImageColumn::make('thumbnail')
+                    ->label(trans('adm/form.thumbnail'))
                     ->collection('thumbs'),
                 TextColumn::make('title')
+                    ->label(trans('adm/form.title'))
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('slug'),
+                TextColumn::make('slug')
+                    ->label(trans('adm/form.slug')),
 
                 IconColumn::make('is_enabled')
+                    ->label(trans('adm/form.is_enabled'))
                     ->boolean(),
+                TextColumn::make('lang')
+                    ->label(trans('adm/form.lang'))
+                    ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(trans('adm/form.date'))
                     ->label('date')
                     ->date()
                     ->sortable(),

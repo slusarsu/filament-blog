@@ -3,14 +3,11 @@
 namespace App\Adm\Controllers;
 
 use App\Adm\Services\PageService;
-use App\Adm\Traits\AdmViewTrait;
 use Illuminate\Http\Request;
 
 
 class PageController extends Controller
 {
-    use AdmViewTrait;
-
     private PageService $pageService;
 
     public function __construct(PageService $pageService)
@@ -20,9 +17,12 @@ class PageController extends Controller
 
     public function page(Request $request, $slug)
     {
-        $page = $this->pageService->getPageBySlug($slug);
+        $page = $this->pageService->oneBySlug($slug);
         $template = !empty($page->template) ? $page->template : 'page';
+        $cf = $page->customFields();
+        $thumb = $page->thumb();
+        $images = $page->images();
 
-        return admView('pages/'.$template, compact('page'));
+        return admView('pages/'.$template, compact('page', 'cf', 'images', 'thumb'));
     }
 }

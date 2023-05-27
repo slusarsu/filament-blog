@@ -36,6 +36,7 @@ class Post extends Model implements HasMedia
         'seo_text_keys',
         'seo_description',
         'is_enabled',
+        'lang',
     ];
 
     protected $casts = [
@@ -64,10 +65,26 @@ class Post extends Model implements HasMedia
         $query->where('is_enabled', true)
         ->where('created_at', '<=',Carbon::now());
     }
-    public function postMedia()
+    public function images(): array
     {
-        $this->thumb = $this->getMedia('thumbs')->first();
-        $this->images = $this->getMedia('images')->all();
-        return $this;
+        $media = $this->getMedia('images');
+
+        $images = [];
+
+        foreach ($media as $image) {
+            $images[] = $image->getUrl();
+        }
+
+        return $images;
+    }
+
+    public function thumb(): string
+    {
+        return $this->getFirstMediaUrl('thumbs');
+    }
+
+    public function url(): string
+    {
+        return url('/post/'.$this->slug);
     }
 }

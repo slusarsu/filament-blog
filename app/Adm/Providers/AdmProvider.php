@@ -26,6 +26,5 @@ class AdmProvider extends ServiceProvider
         resolve(TemplateService::class)->getTemplateFunctions($admSite['template']);
         View::share('admSite', $admSite);
         View::share('admTpl', $admTpl);
-
     }
 }

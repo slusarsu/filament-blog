@@ -32,7 +32,7 @@ class PostService
     {
         $param = [...$this->allPostParams, ...$params];
 
-        $posts =  $this->model->active()->with('media');
+        $posts =  $this->model->active();
 
         return $this->postsFilter($posts, $paginateCount, $param);
     }
@@ -60,35 +60,11 @@ class PostService
 
     public function oneBySlug($slug)
     {
-        $post =  $this->model->where('slug', $slug)->active()->with('media')->first();
-
-        if($post) {
-            return $this->getMediaForRecord($post);
-        }
-
-        return $post;
+        return $this->model->where('slug', $slug)->active()->first();
     }
 
     public function oneById($id)
     {
-        $post =  $this->model->where('id', $id)->active()->with('media')->first();
-
-        if($post) {
-            return $this->getMediaForRecord($post);
-        }
-
-        return $post;
-    }
-
-    public function getMediaForRecord(Post $record): Post
-    {
-        if(!$record) {
-            throw new NotFoundHttpException();
-        } else {
-            $record->thumb = $record->getMedia('thumbs')->first();
-            $record->images = $record->getMedia('images')->all();
-        }
-
-        return $record;
+        return $this->model->where('id', $id)->active()->first();
     }
 }
