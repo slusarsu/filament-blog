@@ -6,6 +6,7 @@ use App\Adm\Services\TemplateService;
 use App\Filament\Pages\SiteSettings;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
+use App\Filament\Resources\PageResource\Widgets\PageStatsOverview;
 use App\Models\Page;
 use Closure;
 use Filament\Forms\Components\Builder\Block;
@@ -237,6 +238,13 @@ class PageResource extends Resource
     {
         return [
             //
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            PageStatsOverview::class
         ];
     }
 

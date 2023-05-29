@@ -1,7 +1,9 @@
 <?php
 
+use App\Adm\Controllers\CategoryController;
 use App\Adm\Controllers\PageController;
 use App\Adm\Controllers\PostController;
+use App\Adm\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +25,6 @@ Route::get('/', function () {
 
 Route::get('{slug}', [PageController::class, 'page'])->name('page');
 Route::get('post/{slug}', [PostController::class, 'post'])->name('post');
+Route::get('tag/{slug}', [TagController::class, 'tag'])->name('tag');
+Route::get('category/{slug}', [CategoryController::class, 'category'])->name('category');
 

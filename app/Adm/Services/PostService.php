@@ -11,7 +11,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostService
 {
-    private Builder $model;
+    private Post $model;
+
     /**
      * @var array|string[]
      */
@@ -19,26 +20,29 @@ class PostService
 
     public function __construct()
     {
-        $this->model = Post::query();
+        $this->model = new Post();
         $this->allPostParams = [
             'orderBy' => 'desc',
             'orderByParam' => 'created_at',
+//            'orderByParam' => 'id',
             'limit' => 0,
             'toArray' => false,
         ];
     }
 
-    public function getAll(int $paginateCount = 0, array $params = [])
+    public function getAll(int $paginateCount = 10, array $params = [])
     {
         $param = [...$this->allPostParams, ...$params];
 
-        $posts =  $this->model->active();
+        $posts =  $this->model::query()->active();
 
         return $this->postsFilter($posts, $paginateCount, $param);
     }
 
     public function postsFilter($posts, int $paginateCount, array $param)
     {
+        $posts = $posts->with('tags:id,title,slug')->with('categories:id,title,slug');
+
         $posts = $posts->orderBy($param['orderByParam'],$param['orderBy']);
 
         if($param['limit']) {
@@ -66,5 +70,31 @@ class PostService
     public function oneById($id)
     {
         return $this->model->where('id', $id)->active()->first();
+    }
+
+    public function allByTagSlug(string $slug, int $paginateCount = 20)
+    {
+        return $this->model
+            ->whereHas('tags', function($query) use ($slug){
+                $query->where('slug', $slug);
+            })
+            ->with('tags:id,title,slug')
+            ->with('categories:id,title,slug')
+            ->active()
+            ->orderBy('created_at', 'desc')
+            ->paginate($paginateCount);
+    }
+
+    public function allByCategorySlug(string $slug, int $paginateCount = 20)
+    {
+        return $this->model
+            ->whereHas('categories', function($query) use ($slug){
+                $query->where('slug', $slug);
+            })
+            ->with('tags:id,title,slug')
+            ->with('categories:id,title,slug')
+            ->active()
+            ->orderBy('created_at', 'desc')
+            ->paginate($paginateCount);
     }
 }

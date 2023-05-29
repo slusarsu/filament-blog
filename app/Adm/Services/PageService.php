@@ -32,6 +32,6 @@ class PageService
 
     public function getSeoData()
     {
-        
+
     }
 }

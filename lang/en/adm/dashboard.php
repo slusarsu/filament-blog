@@ -18,5 +18,8 @@ return [
     'role' => 'Role',
     'permissions' => 'Permissions',
     'permission' => 'Permission',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+    'removed' => 'Removed',
 ];
 

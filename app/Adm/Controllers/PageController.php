@@ -18,10 +18,10 @@ class PageController extends Controller
     public function page(Request $request, $slug)
     {
         $page = $this->pageService->oneBySlug($slug);
-        $template = !empty($page->template) ? $page->template : 'page';
         $cf = $page->customFields();
         $thumb = $page->thumb();
         $images = $page->images();
+        $template = !empty($page->template) ? $page->template : 'page';
 
         return admView('pages/'.$template, compact('page', 'cf', 'images', 'thumb'));
     }

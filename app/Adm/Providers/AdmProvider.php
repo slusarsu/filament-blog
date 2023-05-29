@@ -3,6 +3,8 @@
 namespace App\Adm\Providers;
 
 use App\Adm\Services\TemplateService;
+use Filament\Facades\Filament;
+use Filament\Navigation\UserMenuItem;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 

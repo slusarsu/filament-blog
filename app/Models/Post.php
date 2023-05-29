@@ -37,6 +37,7 @@ class Post extends Model implements HasMedia
         'seo_description',
         'is_enabled',
         'lang',
+        'created_at',
     ];
 
     protected $casts = [

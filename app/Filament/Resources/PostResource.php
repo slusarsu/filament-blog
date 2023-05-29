@@ -219,7 +219,7 @@ class PostResource extends Resource
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label(trans('adm/form.date'))
-                    ->date()
+                    ->dateTime()
                     ->sortable(),
             ])
             ->filters([
