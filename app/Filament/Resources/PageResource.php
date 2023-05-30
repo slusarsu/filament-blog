@@ -124,6 +124,15 @@ class PageResource extends Resource
                                                         ->label('Paragraph')
                                                         ->required(),
                                                 ]),
+                                            Block::make('content')
+                                                ->schema([
+                                                    TextInput::make('field_name'),
+                                                    TinyEditor::make('content')
+                                                        ->fileAttachmentsDisk('local')
+                                                        ->fileAttachmentsDirectory('public/uploads')
+                                                        ->fileAttachmentsVisibility('storage')
+                                                        ->label(trans('adm/form.content')),
+                                                ]),
                                             Block::make('image')
                                                 ->schema([
                                                     TextInput::make('field_name'),
@@ -161,6 +170,7 @@ class PageResource extends Resource
                             Select::make('template')
                                 ->label(trans('adm/form.template'))
                                 ->options(resolve(TemplateService::class)->getCurrentTemplatePageNames())
+                                ->default('page')
                                 ->required(),
                             Select::make('lang')
                                 ->label(trans('adm/form.lang'))
