@@ -24,7 +24,7 @@ It is a Filament based web application (cms) for Laravel developers. After insta
 - Users
 - Roles
 - Permissions
-- 
+
 ### For developer
 - helpers files with functions
 - template system in blade
