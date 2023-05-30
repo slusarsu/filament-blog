@@ -39,6 +39,7 @@ class StartCommand extends Command
             $this->info("-- data added to db");
         }
 
+        $this->call('storage:link');
         $this->call('optimize:clear');
     }
 }

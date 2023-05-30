@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::view('/welcome', 'welcome')->name('welcome');
-Route::view('/test', 'test')->name('test');
 
 Route::get('/', function () {
     return admView('index');
