@@ -26,13 +26,13 @@ It is a Filament based web application (cms) for Laravel developers. After insta
 - Permissions
 
 ### For developer
-- helpers files with functions
+- helpers files with functions in app/Adm/Helpers
 - template system in blade
 - translations
 - own template settings
 - own template functions
 - routes for taxonomy and content in routes/adm.php
-- services for in app/Adm/Services
+- services in app/Adm/Services
 
 Almost all files of Adm cms stored in app/Adm
 
