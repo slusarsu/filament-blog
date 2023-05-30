@@ -20,7 +20,6 @@ It is a Filament based web application (cms) for Laravel developers. After insta
 - Menu
 - Site settings
 - Widgets
-- Widgets
 - Users
 - Roles
 - Permissions
