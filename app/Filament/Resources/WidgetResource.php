@@ -56,11 +56,9 @@ class WidgetResource extends Resource
                     Select::make('type')->options(
                             WidgetTypeEnum::allValues()
                         )->required(),
-
-                        CodeField::make('body'),
-//                            ->htmlField(),
-//                            ->withLineNumbers(),
-
+                        CodeField::make('body')
+                            ->htmlField()
+                            ->withLineNumbers(),
                         Toggle::make('is_enabled')->default(true),
                     ]),
             ]);

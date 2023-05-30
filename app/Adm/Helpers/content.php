@@ -5,7 +5,7 @@ use App\Adm\Services\PostService;
 
 function admLocales(): array
 {
-    return config('filament-language-switch', 'locales')['locales'];
+    return config('adm.locales');
 }
 function admLanguages(): array
 {
