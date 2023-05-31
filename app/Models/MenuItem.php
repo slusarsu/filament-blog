@@ -60,4 +60,9 @@ class MenuItem extends Model
             }
         }
     }
+
+    public function link()
+    {
+        return '/'.app()->getLocale().$this->link;
+    }
 }

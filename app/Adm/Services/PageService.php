@@ -16,18 +16,14 @@ class PageService
         $this->model = Page::query();
     }
 
-    public function oneBySlug(string $slug): object
+    public function oneBySlug(string $slug): object|null
     {
-        $page = $this->model->where('slug', $slug)->active()->first();
-
-        return $page ?? abort(404);
+        return $this->model->where('slug', $slug)->active()->first();
     }
 
-    public function oneById(string $id): object
+    public function oneById(string $id): object|null
     {
-        $page = $this->model->where('id', $id)->active()->first();
-
-        return $page ?? abort(404);
+        return $this->model->where('id', $id)->active()->first();
     }
 
     public function getSeoData()

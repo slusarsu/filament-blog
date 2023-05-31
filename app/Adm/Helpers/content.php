@@ -3,28 +3,19 @@
 use App\Adm\Services\PageService;
 use App\Adm\Services\PostService;
 
-function admLocales(): array
-{
-    return config('adm.locales');
-}
-function admLanguages(): array
-{
-    $languages = [];
-
-    foreach (admLocales() as $key => $locale) {
-        $languages[$key] = $locale['native'];
-    }
-
-    return $languages;
-}
-
 function admPageBySlug(string $slug = '') {
 
     if(empty($slug)) {
         $slug = request()->path();
     }
 
-    return resolve(PageService::class)->oneBySlug($slug);
+    $page = resolve(PageService::class)->oneBySlug($slug);
+
+    if(!$page) {
+        return redirect()->route('home', admLocale());
+    }
+
+    return $page;
 }
 
 function admPageById($id) {

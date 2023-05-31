@@ -15,9 +15,14 @@ class PageController extends Controller
         $this->pageService = $pageService;
     }
 
-    public function page(Request $request, $slug)
+    public function page(Request $request, $lang, $slug)
     {
         $page = $this->pageService->oneBySlug($slug);
+
+        if(!$page) {
+            return redirect()->route('home', admLocale());
+        }
+
         $cf = $page->customFields();
         $thumb = $page->thumb();
         $images = $page->images();

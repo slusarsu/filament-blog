@@ -36,3 +36,23 @@ function admDefaultLanguage()
 {
     return siteSetting()->get('default_language');
 }
+
+function admLocales(): array
+{
+    return config('adm.locales');
+}
+function admLanguages(): array
+{
+    $languages = [];
+
+    foreach (admLocales() as $key => $locale) {
+        $languages[$key] = $locale['native'];
+    }
+
+    return $languages;
+}
+
+function admLocale(): string
+{
+    return app()->getLocale();
+}

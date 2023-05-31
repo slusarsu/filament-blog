@@ -12,7 +12,7 @@
                     <div class="card p-2" id="post-{{$post->id}}" wire:change="100%">
                         <img src="{{$post->thumb()}}" class="card-img-top" alt="...">
                         <a href="{{$post->url()}}">
-                            <h5 class="card-title my-2">{{$post->id}} | {{$post->title}}</h5>
+                            <h5 class="card-title my-2">{{$post->id}} | {{$post->lang}} | {{$post->title}}</h5>
                         </a>
 
                         <div class="card-body p-0">

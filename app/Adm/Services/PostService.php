@@ -34,7 +34,7 @@ class PostService
     {
         $param = [...$this->allPostParams, ...$params];
 
-        $posts =  $this->model::query()->active();
+        $posts =  $this->model::query()->active()->lang();
 
         return $this->postsFilter($posts, $paginateCount, $param);
     }

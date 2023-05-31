@@ -66,6 +66,12 @@ class Post extends Model implements HasMedia
         $query->where('is_enabled', true)
         ->where('created_at', '<=',Carbon::now());
     }
+
+    public function scopeLang(Builder $query): void
+    {
+        $query->where('lang', app()->getLocale());
+//            ->orWhere('lang', null);
+    }
     public function images(): array
     {
         $media = $this->getMedia('images');
@@ -86,6 +92,6 @@ class Post extends Model implements HasMedia
 
     public function url(): string
     {
-        return url('/post/'.$this->slug);
+        return url(app()->getLocale().'/post/'.$this->slug);
     }
 }

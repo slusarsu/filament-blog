@@ -20,7 +20,7 @@ class CategoryController extends Controller
         $this->postService = $postService;
     }
 
-    public function category(Request $request, $slug)
+    public function category(Request $request, $lang, $slug)
     {
         $category = $this->categoryService->oneBySlug($slug);
         $posts = $this->postService->allByTagSlug($slug, 6);

@@ -156,16 +156,6 @@ class PostResource extends Resource
                         ])
                         ->collapsible(),
 
-                    Section::make('SEO')
-                        ->schema([
-                            Textarea::make('seo_text_keys')
-                                ->label(trans('adm/form.seo_text_keys'))
-                                ->columnSpan('full'),
-                            Textarea::make('seo_description')
-                                ->label(trans('adm/form.seo_description'))
-                                ->columnSpan('full'),
-                        ]),
-
                     Section::make('Settings')
                         ->schema([
                             DateTimePicker::make('created_at')
@@ -180,7 +170,17 @@ class PostResource extends Resource
                             Toggle::make('is_enabled')
                                 ->label(trans('adm/form.is_enabled'))
                                 ->default(true)
-                        ]),
+                        ])->collapsible(),
+
+                    Section::make('SEO')
+                        ->schema([
+                            Textarea::make('seo_text_keys')
+                                ->label(trans('adm/form.seo_text_keys'))
+                                ->columnSpan('full'),
+                            Textarea::make('seo_description')
+                                ->label(trans('adm/form.seo_description'))
+                                ->columnSpan('full'),
+                        ])->collapsible(),
 
                 ])->columnSpan(1),
 

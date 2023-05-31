@@ -19,7 +19,7 @@ class TagController extends Controller
         $this->postService = $postService;
     }
 
-    public function tag(Request $request, $slug)
+    public function tag(Request $request, $lang, $slug)
     {
         $tag = $this->tagService->oneBySlug($slug);
         $posts = $this->postService->allByTagSlug($slug, 6);
