@@ -36,8 +36,3 @@ Route::prefix('{lang}')
     Route::get('category/{slug}', [CategoryController::class, 'category'])->name('category');
 });
 
-Route::fallback(function () {
-    return redirect()->route('main');
-});
-
-
