@@ -13,6 +13,8 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -90,6 +92,31 @@ class PostResource extends Resource
                                 ->disableLabel(),
                         ])
                         ->collapsible(),
+
+                    Tabs::make('Heading')
+                        ->tabs([
+                            Tab::make('Images')
+                                ->icon('heroicon-o-film')
+                                ->schema([
+                                    SpatieMediaLibraryFileUpload::make('media')
+                                        ->collection('images')
+                                        ->multiple()
+                                        ->disableLabel(),
+                                ])  ,
+                            Tab::make('SEO')
+                                ->icon('heroicon-o-folder')
+                                ->schema([
+                                    TextInput::make('seo_title')
+                                        ->label(trans('adm/form.seo_text_keys'))
+                                        ->columnSpan('full'),
+                                    Textarea::make('seo_text_keys')
+                                        ->label(trans('adm/form.seo_text_keys'))
+                                        ->columnSpan('full'),
+                                    Textarea::make('seo_description')
+                                        ->label(trans('adm/form.seo_text_keys'))
+                                        ->columnSpan('full'),
+                                ]),
+                        ]),
 
                 ])->columnSpan(3),
 
@@ -170,16 +197,6 @@ class PostResource extends Resource
                             Toggle::make('is_enabled')
                                 ->label(trans('adm/form.is_enabled'))
                                 ->default(true)
-                        ])->collapsible(),
-
-                    Section::make('SEO')
-                        ->schema([
-                            Textarea::make('seo_text_keys')
-                                ->label(trans('adm/form.seo_text_keys'))
-                                ->columnSpan('full'),
-                            Textarea::make('seo_description')
-                                ->label(trans('adm/form.seo_description'))
-                                ->columnSpan('full'),
                         ])->collapsible(),
 
                 ])->columnSpan(1),

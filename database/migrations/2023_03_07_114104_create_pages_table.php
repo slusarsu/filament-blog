@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('short')->nullable();
             $table->text('content')->nullable();
             $table->text('template')->nullable();
+            $table->string('seo_title')->nullable();
             $table->string('seo_text_keys')->nullable();
             $table->string('seo_description')->nullable();
             $table->json('custom_fields')->nullable();

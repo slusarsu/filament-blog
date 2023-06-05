@@ -15,6 +15,7 @@ return [
     'parent' => 'parent',
     'content' => 'content',
     'seo' => 'seo',
+    'seo_title' => 'seo title',
     'seo_text_keys' => 'seo text keys',
     'seo_description' => 'seo description',
     'created_at' => 'created at',

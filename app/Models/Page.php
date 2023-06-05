@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
@@ -25,6 +26,7 @@ class Page extends Model implements HasMedia
         'content',
         'template',
         'custom_fields',
+        'seo_title',
         'seo_text_keys',
         'seo_description',
         'is_enabled',
@@ -74,5 +76,10 @@ class Page extends Model implements HasMedia
     public function thumb(): string
     {
         return $this->getFirstMediaUrl('thumbs');
+    }
+
+    public function seo(): MorphOne
+    {
+        return $this->morphOne(Seo::class, 'seoable');
     }
 }

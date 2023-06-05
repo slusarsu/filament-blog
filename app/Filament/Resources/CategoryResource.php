@@ -80,6 +80,9 @@ class CategoryResource extends Resource
 
                     Section::make('SEO')
                         ->schema([
+                            TextInput::make('seo_title')
+                                ->label(trans('adm/form.seo_text_keys'))
+                                ->columnSpan('full'),
                             Textarea::make('seo_text_keys')
                                 ->label(trans('adm/form.seo_text_keys'))
                                 ->columnSpan('full'),

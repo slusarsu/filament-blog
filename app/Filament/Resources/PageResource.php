@@ -8,6 +8,7 @@ use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Filament\Resources\PageResource\Widgets\PageStatsOverview;
 use App\Models\Page;
+use App\Models\Seo;
 use Closure;
 use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\Card;
@@ -16,6 +17,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\MorphToSelect;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
@@ -96,15 +98,11 @@ class PageResource extends Resource
                             Tab::make('Images')
                                 ->icon('heroicon-o-film')
                                 ->schema([
-                                        Section::make('Images')
-                                        ->schema([
-                                            SpatieMediaLibraryFileUpload::make('media')
-                                                ->collection('images')
-                                                ->multiple()
-                                                ->enableReordering()
-                                                ->disableLabel(),
-                                        ])
-                                        ->collapsible(),
+                                    SpatieMediaLibraryFileUpload::make('media')
+                                        ->collection('images')
+                                        ->multiple()
+                                        ->enableReordering()
+                                        ->disableLabel(),
                                 ]),
                             Tab::make('Custom Fields')
                                 ->icon('heroicon-o-document-text')
@@ -146,6 +144,19 @@ class PageResource extends Resource
                                                 ]),
                                         ])
                                 ]),
+                            Tab::make('SEO')
+                                ->icon('heroicon-o-folder')
+                                ->schema([
+                                    TextInput::make('seo_title')
+                                        ->label(trans('adm/form.seo_text_keys'))
+                                        ->columnSpan('full'),
+                                    Textarea::make('seo_text_keys')
+                                        ->label(trans('adm/form.seo_text_keys'))
+                                        ->columnSpan('full'),
+                                    Textarea::make('seo_description')
+                                        ->label(trans('adm/form.seo_text_keys'))
+                                        ->columnSpan('full'),
+                                ]),
                         ]),
 
 
@@ -181,17 +192,6 @@ class PageResource extends Resource
                             Toggle::make('is_enabled')
                                 ->label(trans('adm/form.is_enabled'))
                                 ->default(true),
-                        ]),
-
-
-                    Section::make('SEO')
-                        ->schema([
-                            Textarea::make('seo_text_keys')
-                                ->label(trans('adm/form.seo_text_keys'))
-                                ->columnSpan('full'),
-                            Textarea::make('seo_description')
-                                ->label(trans('adm/form.seo_text_keys'))
-                                ->columnSpan('full'),
                         ]),
 
                 ])->columnSpan(1),

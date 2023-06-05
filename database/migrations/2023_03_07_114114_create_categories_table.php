@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->integer('order')->default(0);
             $table->text('content')->nullable();
+            $table->string('seo_title')->nullable();
             $table->string('seo_text_keys')->nullable();
             $table->string('seo_description')->nullable();
             $table->boolean('is_enabled')->default(true);
