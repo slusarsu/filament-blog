@@ -295,4 +295,9 @@ return [
         //'jv-Java'     => ['name' => 'Javanese (Javanese)',    'script' => 'Java', 'native' => 'ꦧꦱꦗꦮ', 'flag_code' => '' ],
         //'ko'          => ['name' => 'Korean',                 'script' => 'Hang', 'native' => '한국어', 'flag_code' => '' ],
     ],
+
+    'post_types' => [
+        'post' => 'Post',
+        'book' => 'Book',
+    ],
 ];

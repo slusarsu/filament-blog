@@ -76,12 +76,13 @@ class CategoryResource extends Resource
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
                                 ->fileAttachmentsDirectory('public/uploads')
+                                ->setConvertUrls(false)
                         ]),
 
                     Section::make('SEO')
                         ->schema([
                             TextInput::make('seo_title')
-                                ->label(trans('adm/form.seo_text_keys'))
+                                ->label(trans('adm/form.seo_title'))
                                 ->columnSpan('full'),
                             Textarea::make('seo_text_keys')
                                 ->label(trans('adm/form.seo_text_keys'))

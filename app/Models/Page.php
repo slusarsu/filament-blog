@@ -82,4 +82,9 @@ class Page extends Model implements HasMedia
     {
         return $this->morphOne(Seo::class, 'seoable');
     }
+
+    public function translation()
+    {
+        return $this->hasMany(AdmTranslation::class, 'model_id', 'id');
+    }
 }

@@ -26,6 +26,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
@@ -73,6 +74,7 @@ class PostResource extends Resource
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
                                 ->fileAttachmentsDirectory('public/uploads')
+                                ->setConvertUrls(false)
                         ]),
 
                     Section::make('Content')
@@ -82,16 +84,8 @@ class PostResource extends Resource
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
                                 ->fileAttachmentsDirectory('public/uploads')
+                                ->setConvertUrls(false)
                         ]),
-
-                    Section::make('Images')
-                        ->schema([
-                            SpatieMediaLibraryFileUpload::make('media')
-                                ->collection('images')
-                                ->multiple()
-                                ->disableLabel(),
-                        ])
-                        ->collapsible(),
 
                     Tabs::make('Heading')
                         ->tabs([
@@ -107,7 +101,7 @@ class PostResource extends Resource
                                 ->icon('heroicon-o-folder')
                                 ->schema([
                                     TextInput::make('seo_title')
-                                        ->label(trans('adm/form.seo_text_keys'))
+                                        ->label(trans('adm/form.seo_title'))
                                         ->columnSpan('full'),
                                     Textarea::make('seo_text_keys')
                                         ->label(trans('adm/form.seo_text_keys'))
@@ -241,6 +235,9 @@ class PostResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Filter::make('only_enabled')
+                    ->query(fn (Builder $query): Builder => $query->where('is_enabled', true))
+                    ->toggle()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

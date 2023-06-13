@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use App\Adm\Services\PageService;
 use App\Adm\Services\TemplateService;
+use App\Adm\Services\TranslationService;
 use App\Filament\Pages\SiteSettings;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Filament\Resources\PageResource\Widgets\PageStatsOverview;
 use App\Models\Page;
 use App\Models\Seo;
+use App\Models\User;
 use Closure;
 use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\Card;
@@ -32,11 +35,15 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Builder as FromBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -78,19 +85,21 @@ class PageResource extends Resource
                                 ->unique(self::getModel(), 'slug', ignoreRecord: true)->columnSpanFull(),
 
                             TinyEditor::make('short')
+                                ->label(trans('adm/form.short'))
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
                                 ->fileAttachmentsDirectory('public/uploads')
-                                ->label(trans('adm/form.short'))
+                                ->setConvertUrls(false)
                         ]),
 
                     Section::make('Content')
                         ->schema([
                             TinyEditor::make('content')
+                                ->label(trans('adm/form.content'))
                                 ->fileAttachmentsDisk('local')
                                 ->fileAttachmentsVisibility('storage')
                                 ->fileAttachmentsDirectory('public/uploads')
-                                ->label(trans('adm/form.content')),
+                                ->setConvertUrls(false)
                         ]),
 
                     Tabs::make('Heading')
@@ -100,7 +109,7 @@ class PageResource extends Resource
                                 ->schema([
                                     SpatieMediaLibraryFileUpload::make('media')
                                         ->collection('images')
-                                        ->multiple()
+                                        ->multiple()->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null)
                                         ->enableReordering()
                                         ->disableLabel(),
                                 ]),
@@ -126,10 +135,11 @@ class PageResource extends Resource
                                                 ->schema([
                                                     TextInput::make('field_name'),
                                                     TinyEditor::make('content')
+                                                        ->label(trans('adm/form.content'))
                                                         ->fileAttachmentsDisk('local')
                                                         ->fileAttachmentsDirectory('public/uploads')
                                                         ->fileAttachmentsVisibility('storage')
-                                                        ->label(trans('adm/form.content')),
+                                                        ->setConvertUrls(false)
                                                 ]),
                                             Block::make('image')
                                                 ->schema([
@@ -148,7 +158,7 @@ class PageResource extends Resource
                                 ->icon('heroicon-o-folder')
                                 ->schema([
                                     TextInput::make('seo_title')
-                                        ->label(trans('adm/form.seo_text_keys'))
+                                        ->label(trans('adm/form.seo_title'))
                                         ->columnSpan('full'),
                                     Textarea::make('seo_text_keys')
                                         ->label(trans('adm/form.seo_text_keys'))
@@ -231,10 +241,27 @@ class PageResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Filter::make('only_enabled')
+                    ->query(fn (Builder $query): Builder => $query->where('is_enabled', true))
+                    ->toggle()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('translate')
+                    ->action(function (array $data, Action $action): void {
+                        resolve(TranslationService::class)->TranslateModel(static::$model, $action->getRecord(), $data);
+                    })
+                    ->form(fn (Action $action): array => [
+                        Select::make('model_records_id')
+                            ->label('Pages')
+                            ->options(resolve(TranslationService::class)->getAllTranslationList(static::$model, $action->getRecord()))
+                            ->multiple()
+                            ->required(),
+                    ]),
+                Action::make('advance')
+                    ->action(fn () => '')
+                    ->modalContent(view('livewire.adm.translation-model-relation', ['record' => fn () => $this->record->toArray()]))
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

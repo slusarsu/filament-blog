@@ -16,6 +16,22 @@ class PageService
         $this->model = Page::query();
     }
 
+    public function getAllTranslationList(string $lang): array
+    {
+        $allItems = $this->model->whereNot('lang', $lang)->get();
+
+        $items = [];
+
+        foreach ($allItems as $item) {
+            if($lang == $item->lang) {
+                continue;
+            }
+            $items[$item->id] = $item->lang .' | '.$item->title;
+        }
+
+        return $items;
+    }
+
     public function oneBySlug(string $slug): object|null
     {
         return $this->model->where('slug', $slug)->active()->first();

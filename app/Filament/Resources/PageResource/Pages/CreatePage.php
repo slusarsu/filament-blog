@@ -21,4 +21,10 @@ class CreatePage extends CreateRecord
 
         return $data;
     }
+
+    protected function afterCreate(): void
+    {
+//        dd($this->record);
+//        dd($this->data);
+    }
 }

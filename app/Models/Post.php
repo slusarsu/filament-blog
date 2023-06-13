@@ -36,8 +36,10 @@ class Post extends Model implements HasMedia
         'seo_title',
         'seo_text_keys',
         'seo_description',
+        'post_type',
         'is_enabled',
         'lang',
+        'translation_code',
         'created_at',
     ];
 

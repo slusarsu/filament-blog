@@ -6,7 +6,7 @@ use App;
 use App\Adm\Services\PageService;
 use App\Adm\Services\PostService;
 use App\Adm\Services\TagService;
-use App\Adm\Services\TranslateService;
+use App\Adm\Services\TranslationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -14,9 +14,9 @@ use Illuminate\Support\Str;
 
 class TranslateController extends Controller
 {
-    private TranslateService $translateService;
+    private TranslationService $translateService;
 
-    public function __construct(TranslateService $translateService)
+    public function __construct(TranslationService $translateService)
     {
         $this->translateService = $translateService;
     }
