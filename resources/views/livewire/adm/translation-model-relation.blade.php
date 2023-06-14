@@ -1,3 +1,3 @@
 <div>
-    @dd($record['id'])
+    {{$record->id}}
 </div>

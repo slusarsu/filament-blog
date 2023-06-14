@@ -261,7 +261,9 @@ class PageResource extends Resource
                     ]),
                 Action::make('advance')
                     ->action(fn () => '')
-                    ->modalContent(view('livewire.adm.translation-model-relation', ['record' => fn () => $this->record->toArray()]))
+                    ->modalContent(function ($record) {
+                        return view('livewire.adm.translation-model-relation', ['record' => $record]);
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
