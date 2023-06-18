@@ -9,6 +9,7 @@ use App\Filament\Pages\SiteSettings;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Filament\Resources\PageResource\Widgets\PageStatsOverview;
+use App\Http\Livewire\Adm\TranslationModelRelation;
 use App\Models\Page;
 use App\Models\Seo;
 use App\Models\User;
@@ -46,7 +47,10 @@ use Filament\Forms\Components\Builder as FromBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Livewire\Livewire;
 use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class PageResource extends Resource
@@ -249,20 +253,18 @@ class PageResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Action::make('translate')
-                    ->action(function (array $data, Action $action): void {
-                        resolve(TranslationService::class)->TranslateModel(static::$model, $action->getRecord(), $data);
-                    })
-                    ->form(fn (Action $action): array => [
-                        Select::make('model_records_id')
-                            ->label('Pages')
-                            ->options(resolve(TranslationService::class)->getAllTranslationList(static::$model, $action->getRecord()))
-                            ->multiple()
-                            ->required(),
-                    ]),
+                    ->action(fn ($data) => '')
+                    ->modalContent(function ($record) {
+                        return view('adm::modal.translation-selectors', ['record' =>$record]);
+                    })->modalButton('OK'),
                 Action::make('advance')
                     ->action(fn () => '')
-                    ->modalContent(function ($record) {
-                        return view('livewire.adm.translation-model-relation', ['record' => $record]);
+                    ->url(function ($record){
+                        return route('filament.pages.adm-translation-selectors', [
+                            'record' => $record->id,
+                            'model_type' => class_basename($record),
+//                            'model_type' => class_basename($record)
+                        ]);
                     })
             ])
             ->bulkActions([

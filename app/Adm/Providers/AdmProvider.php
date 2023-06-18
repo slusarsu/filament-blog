@@ -24,6 +24,7 @@ class AdmProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->loadViewsFrom(__DIR__.'/../Views', 'adm');
         $admSite = siteSetting()->all();
         $admTpl = resolve(TemplateService::class)->getTemplateSettings($admSite['template']);
         resolve(TemplateService::class)->getTemplateFunctions($admSite['template']);

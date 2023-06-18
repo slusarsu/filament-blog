@@ -6,6 +6,7 @@
         $posts = admAllPosts(20);
     @endphp
     <div class="row my-2">
+
         @foreach($posts as $post)
 
                 <div class="col-md-6 g-4">
