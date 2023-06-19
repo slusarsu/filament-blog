@@ -253,17 +253,11 @@ class PageResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Action::make('translate')
-                    ->action(fn ($data) => '')
-                    ->modalContent(function ($record) {
-                        return view('adm::modal.translation-selectors', ['record' =>$record]);
-                    })->modalButton('OK'),
-                Action::make('advance')
                     ->action(fn () => '')
                     ->url(function ($record){
                         return route('filament.pages.adm-translation-selectors', [
                             'record' => $record->id,
                             'model_type' => class_basename($record),
-//                            'model_type' => class_basename($record)
                         ]);
                     })
             ])

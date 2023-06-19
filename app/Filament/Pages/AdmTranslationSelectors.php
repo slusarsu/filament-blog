@@ -4,12 +4,9 @@ namespace App\Filament\Pages;
 
 use App\Models\AdmTranslation;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,30 +22,33 @@ class AdmTranslationSelectors extends Page
 
     protected static string $view = 'filament.pages.adm-translation-selectors';
 
+    public array $locales;
     public string $model_type;
     public $record;
-    public array $locales;
     public $records;
-    public string $prevUrl;
-    public null|Builder|Model $currentTranslation;
     /**
      * @var Builder[]|Collection
      */
     public array|Collection $allTranslations;
-
+    protected static bool $shouldRegisterNavigation = false;
+    private mixed $modelClassName;
 
     public function mount(Request $request): void
     {
-        $this->model_type = "App\Models\\".$request->model_type;
-        $this->record = $this->model_type::query()->where('id', $request->record)->first();
         $this->locales = admLanguages();
+        $this->modelClassName = $request->model_type;
+        $this->model_type = "App\Models\\".$this->modelClassName;
+        $this->record = $this->model_type::query()
+            ->where('id', $request->record)
+            ->with('translation')
+            ->first();
+
         $this->records = $this->getAllRecords();
         $this->addLocaleProperties();
-        $this->prevUrl = url()->previous();
-        $this->currentTranslation = $this->getCurrentTranslation();
-        if($this->currentTranslation) {
-            $this->hash = $this->currentTranslation->hash;
-            $this->allTranslations = $this->getAllTranslations();
+
+        if(!empty($this->record->translation)) {
+            $this->hash = $this->record->translation->hash;
+            $this->allTranslations = $this->record->translations();
             $this->formFillRecords();
         }
     }
@@ -58,7 +58,7 @@ class AdmTranslationSelectors extends Page
         return $this->model_type::query()->where('lang', '!=', $this->record->lang)->get();
     }
 
-    public function formFillRecords()
+    public function formFillRecords(): void
     {
         $records = [];
 
@@ -67,22 +67,6 @@ class AdmTranslationSelectors extends Page
         }
 
         $this->form->fill($records);
-    }
-
-    public function getCurrentTranslation(): Model|Builder|null
-    {
-        return AdmTranslation::query()
-            ->where('model_type', $this->model_type)
-            ->where('model_id', $this->record->id)
-            ->first();
-    }
-
-    public function getAllTranslations(): Collection|array
-    {
-        return AdmTranslation::query()
-            ->where('hash', $this->hash)
-            ->whereIn('lang', array_keys(admLanguages()))
-            ->get();
     }
 
     private function addLocaleProperties(): void
@@ -94,13 +78,11 @@ class AdmTranslationSelectors extends Page
 
     public function prepareSelectors(): array
     {
+        $allRecords = $this->getAllRecords();
         $formSelectors = [];
 
         foreach ($this->locales as $locale => $name) {
-            $records = $this->records?->where('lang', $locale)->pluck('title', 'id')->all();
-            if(!empty($this->allTranslations)) {
-                $selected = $this->allTranslations->where('lang', $locale)->first();
-            }
+            $records = $allRecords?->where('lang', $locale)->pluck('title', 'id')->all();
 
             if(!$records) continue;
 
@@ -113,38 +95,49 @@ class AdmTranslationSelectors extends Page
         return $formSelectors;
     }
 
+    public function removeAllOldRelations($ids): void
+    {
+        AdmTranslation::query()
+            ->where('model_type', $this->model_type)
+            ->whereIn('model_id', $ids)
+            ->delete();
+    }
+
+    public function createRelations($languages): void
+    {
+        $hash = Str::uuid();
+        foreach ($languages as $lang => $model_id) {
+            if(!$model_id) {
+                continue;
+            }
+            AdmTranslation::query()->updateOrCreate(
+                [
+                    'model_type' => $this->model_type,
+                    'model_id' => $model_id,
+                    'lang' => $lang,
+                ],
+                [
+                    'hash' => $hash,
+                ]
+            );
+        }
+    }
+
     public function submit(): void
     {
         $languages = $this->form->getState();
         $languages[$this->record->lang] = $this->record->id;
-        $hash = Str::uuid();
 
-        foreach ($languages as $lang => $model_id) {
-            if(!$model_id) {
-//                AdmTranslation::query()->create([
-//                    'model_type' => $this->model_type,
-//                    'model_id' => $model_id,
-//                    'lang' => $lang,
-//                    'hash' => $hash,
-//                ]);
-                continue;
-            }
-            AdmTranslation::query()->create([
-                'model_type' => $this->model_type,
-                'model_id' => $model_id,
-                'lang' => $lang,
-                'hash' => $hash,
-            ]);
-        }
+        $this->removeAllOldRelations($languages);
+        $this->createRelations($languages);
 
-
-        $this->redirect($this->prevUrl);
+        $this->redirect(url()->previous());
     }
 
     protected function getFormSchema(): array
     {
         return [
-            Card::make()->schema($this->prepareSelectors())
+            Section::make('Translation for ' . $this->modelClassName )->schema($this->prepareSelectors())
         ];
 
     }

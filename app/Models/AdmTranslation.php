@@ -16,4 +16,9 @@ class AdmTranslation extends Model
         'lang',
         'hash',
     ];
+
+    public function page()
+    {
+        return $this->belongsTo(Page::class);
+    }
 }

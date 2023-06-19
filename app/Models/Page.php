@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -83,8 +85,19 @@ class Page extends Model implements HasMedia
         return $this->morphOne(Seo::class, 'seoable');
     }
 
-    public function translation()
+    public function translation(): HasOne
     {
-        return $this->hasMany(AdmTranslation::class, 'model_id', 'id');
+        return $this->hasOne(AdmTranslation::class, 'model_id', 'id')->where('model_type', get_called_class());
+    }
+
+    public function translations(): \Illuminate\Database\Eloquent\Collection|array
+    {
+        $translation = $this->translation()->first();
+
+        if(!$translation) {
+            return [];
+        }
+
+        return AdmTranslation::query()->where('hash', $translation->hash)->get();
     }
 }
