@@ -7,6 +7,7 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -131,13 +132,19 @@ class AdmTranslationSelectors extends Page
         $this->removeAllOldRelations($languages);
         $this->createRelations($languages);
 
+        Notification::make()
+            ->title('Saved successfully')
+            ->icon('heroicon-o-sparkles')
+            ->iconColor('success')
+            ->send();
+
         $this->redirect(url()->previous());
     }
 
     protected function getFormSchema(): array
     {
         return [
-            Section::make('Translation for ' . $this->modelClassName )->schema($this->prepareSelectors())
+            Section::make('Map Translations')->schema($this->prepareSelectors())
         ];
 
     }

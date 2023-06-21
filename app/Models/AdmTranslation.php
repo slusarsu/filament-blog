@@ -21,4 +21,9 @@ class AdmTranslation extends Model
     {
         return $this->belongsTo(Page::class);
     }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }

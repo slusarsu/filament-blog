@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Adm\Actions\ActionAdmTranslationMapper;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
@@ -167,7 +168,8 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make(),
+                ActionAdmTranslationMapper::make('translate')
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

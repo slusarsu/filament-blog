@@ -21,20 +21,31 @@
                 @endforeach
 
                 <li class="nav-item dropdown">
-{{--                    <form action="{{route('set-locale')}}" method="post">--}}
+                    <form action="{{route('switch-locale')}}" method="post">
                         @csrf
+
                         <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             {{admLocale()}}
                         </button>
+
                         <ul class="dropdown-menu dropdown-menu-dark">
+
+                            <input type="hidden" name="route_name" value="{{admRouteName()}}">
+                            <input type="hidden" name="route_parameters" value="{{admJsonRouteParameters()}}">
+
                             @foreach(admLanguages() as $locale => $lang)
+                                @if($locale == admLocale())
+                                    @continue(1)
+                                @endif
                                 <li>
-                                    <input type="hidden" name="locale" value="{{$locale}}">
-                                    <a class="dropdown-item" type="submit" href="{{route('set-locale', $locale)}}">{{$lang}}</a>
+                                    <button class="dropdown-item" type="submit" name="locale" value="{{$locale}}">
+                                        {{$lang}}
+                                    </button>
                                 </li>
                             @endforeach
+
                         </ul>
-{{--                    </form>--}}
+                    </form>
                 </li>
             </ul>
         </div>

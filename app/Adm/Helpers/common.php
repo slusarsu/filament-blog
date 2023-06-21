@@ -56,3 +56,13 @@ function admLocale(): string
 {
     return app()->getLocale();
 }
+
+function admRouteName(): string
+{
+    return request()->route()->getName() ?? '';
+}
+
+function admJsonRouteParameters(): string
+{
+    return json_encode(request()->route()->parameters()) ?? '';
+}

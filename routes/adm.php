@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::view('/welcome', 'welcome')->name('welcome');
 Route::get('/set-locale/{lang}', [TranslateController::class, 'setLocale'])->name('set-locale');
+Route::post('/switch-locale', [TranslateController::class, 'localeSwitcher'])->name('switch-locale');
 
 Route::redirect('/', '/'.admDefaultLanguage());
 

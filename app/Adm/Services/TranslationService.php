@@ -57,4 +57,9 @@ class TranslationService
 
         return $items;
     }
+
+    public static function getTranslationRedirect($request) {
+
+    }
+
 }

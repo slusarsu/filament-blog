@@ -2,28 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Adm\Services\PageService;
+use App\Adm\Actions\ActionAdmTranslationMapper;
 use App\Adm\Services\TemplateService;
-use App\Adm\Services\TranslationService;
-use App\Filament\Pages\SiteSettings;
 use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Filament\Resources\PageResource\Widgets\PageStatsOverview;
-use App\Http\Livewire\Adm\TranslationModelRelation;
 use App\Models\Page;
-use App\Models\Seo;
-use App\Models\User;
-use Closure;
 use Filament\Forms\Components\Builder\Block;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
-use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\MorphToSelect;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -37,20 +26,15 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Builder as FromBuilder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Livewire\Livewire;
 use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class PageResource extends Resource
@@ -252,14 +236,7 @@ class PageResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Action::make('translate')
-                    ->action(fn () => '')
-                    ->url(function ($record){
-                        return route('filament.pages.adm-translation-selectors', [
-                            'record' => $record->id,
-                            'model_type' => class_basename($record),
-                        ]);
-                    })
+                ActionAdmTranslationMapper::make('translate')
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

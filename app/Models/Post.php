@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
+use App\Adm\Traits\ModelHasAdmTranslation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method active
@@ -25,6 +21,7 @@ class Post extends Model implements HasMedia
     use HasFactory;
     use SoftDeletes;
     use InteractsWithMedia;
+    use ModelHasAdmTranslation;
 
     protected $fillable = [
         'user_id',
@@ -70,11 +67,6 @@ class Post extends Model implements HasMedia
         ->where('created_at', '<=',Carbon::now());
     }
 
-    public function scopeLang(Builder $query): void
-    {
-        $query->where('lang', app()->getLocale());
-//            ->orWhere('lang', null);
-    }
     public function images(): array
     {
         $media = $this->getMedia('images');

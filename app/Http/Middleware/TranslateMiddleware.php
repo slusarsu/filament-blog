@@ -25,6 +25,9 @@ class TranslateMiddleware
             session()->put('locale', $request->lang);
         }
 
+//        dd($request->route()->getName());
+//        dd($request->route()->parameters());
+
         return $next($request);
     }
 }

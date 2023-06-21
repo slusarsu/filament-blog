@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Adm\Actions\ActionAdmTranslationMapper;
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Category;
@@ -244,6 +245,7 @@ class PostResource extends Resource
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
+                ActionAdmTranslationMapper::make('translate')
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

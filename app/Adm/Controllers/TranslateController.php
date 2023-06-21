@@ -41,4 +41,37 @@ class TranslateController extends Controller
 
         return redirect($newUrl);
     }
+
+    public function localeSwitcher(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $locale = $request->input('locale');
+        $routeName = $request->input('route_name');
+        $routeParameters = json_decode($request->input('route_parameters'));
+        $routeModel = config('adm.route_model');
+        $model = $routeModel[$routeName] ?? '';
+
+        if(empty($model)) {
+            return redirect()->route('home', $locale);
+        }
+
+        $record = $model::query()->where('slug', $routeParameters->slug)->first();
+
+        if($record->translations()->isEmpty()) {
+            return redirect()->route('home', $locale);
+        }
+
+        $translation = $record->translations()->where('lang', $locale)->first();
+
+        if(!$translation) {
+            return redirect()->route('home', $locale);
+        }
+
+        $newRecord = $model::query()->select('slug')->where('id', $translation->model_id)->first();
+
+        if(!$newRecord) {
+            return redirect()->route('home', $locale);
+        }
+
+        return redirect()->route('post', ['lang' => $locale, 'slug'=>$newRecord->slug]);
+    }
 }

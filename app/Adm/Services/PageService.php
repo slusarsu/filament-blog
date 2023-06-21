@@ -34,12 +34,12 @@ class PageService
 
     public function oneBySlug(string $slug): object|null
     {
-        return $this->model->where('slug', $slug)->active()->first();
+        return $this->model->where('slug', $slug)->active()->lang()->first();
     }
 
     public function oneById(string $id): object|null
     {
-        return $this->model->where('id', $id)->active()->first();
+        return $this->model->where('id', $id)->active()->lang()->first();
     }
 
     public function getSeoData()

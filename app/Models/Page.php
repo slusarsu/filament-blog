@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Adm\Traits\ModelHasAdmTranslation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,7 @@ class Page extends Model implements HasMedia
     use HasFactory;
     use SoftDeletes;
     use InteractsWithMedia;
+    use ModelHasAdmTranslation;
 
     protected $fillable = [
         'user_id',
@@ -83,21 +85,5 @@ class Page extends Model implements HasMedia
     public function seo(): MorphOne
     {
         return $this->morphOne(Seo::class, 'seoable');
-    }
-
-    public function translation(): HasOne
-    {
-        return $this->hasOne(AdmTranslation::class, 'model_id', 'id')->where('model_type', get_called_class());
-    }
-
-    public function translations(): \Illuminate\Database\Eloquent\Collection|array
-    {
-        $translation = $this->translation()->first();
-
-        if(!$translation) {
-            return [];
-        }
-
-        return AdmTranslation::query()->where('hash', $translation->hash)->get();
     }
 }
