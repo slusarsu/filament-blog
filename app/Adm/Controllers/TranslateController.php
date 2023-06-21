@@ -56,7 +56,7 @@ class TranslateController extends Controller
 
         $record = $model::query()->where('slug', $routeParameters->slug)->first();
 
-        if($record->translations()->isEmpty()) {
+        if(empty($record->translations())) {
             return redirect()->route('home', $locale);
         }
 
@@ -72,6 +72,6 @@ class TranslateController extends Controller
             return redirect()->route('home', $locale);
         }
 
-        return redirect()->route('post', ['lang' => $locale, 'slug'=>$newRecord->slug]);
+        return redirect()->route($routeName, ['lang' => $locale, 'slug'=>$newRecord->slug]);
     }
 }
