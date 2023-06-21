@@ -27,4 +27,14 @@ trait ModelHasAdmTranslation
 
         return AdmTranslation::query()->where('hash', $translation->hash)->get();
     }
+    public function getTranslationLocales(): string
+    {
+        $translations = $this->translations();
+        if(!$translations) {
+            return '';
+        }
+        $languages = $translations->pluck('lang')->all() ?? [];
+
+        return implode(' ', $languages);
+    }
 }

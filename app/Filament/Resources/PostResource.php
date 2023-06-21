@@ -233,6 +233,12 @@ class PostResource extends Resource
                     ->label(trans('adm/form.date'))
                     ->dateTime()
                     ->sortable(),
+                TextColumn::make('created_at')
+                    ->label(trans('adm/form.date'))
+                    ->dateTime()
+                    ->sortable(),
+                TextColumn::make('locales')
+                    ->description(fn ($record): string => $record->getTranslationLocales(), position: 'above')
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

@@ -221,11 +221,6 @@ class PageResource extends Resource
                 TextColumn::make('lang')
                     ->label(trans('adm/form.lang'))
                     ->sortable(),
-                TextColumn::make('created_at')
-                    ->label(trans('adm/form.date'))
-                    ->label('date')
-                    ->date()
-                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
