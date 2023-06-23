@@ -18,7 +18,7 @@ class SiteSettings extends Page
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationGroup = 'System';
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
 
     protected static string $view = 'filament.pages.site-settings';
