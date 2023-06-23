@@ -27,9 +27,18 @@ function admAsset(string $filePath): string
     return asset(resolve(TemplateService::class)->templateRecoursePath().'/'. $filePath);
 }
 
-function admMenu($slug) {
-    $menu = Menu::query()->where('slug', $slug)->with('menu_items')->first();
+function admMenuBySlug($slug) {
+    $menu = Menu::query()->where('slug', $slug)->with('menu_items')->lang()->first();
     return !empty($menu->menu_items) ? MenuItem::tree($menu->id) : $menu->menu_items ?? [];
+}
+
+function admMenuByPosition($position) {
+    $menu = Menu::query()->where('position', $position)->with('menu_items')->lang()->first();
+    return !empty($menu->menu_items) ? MenuItem::tree($menu->id) : $menu->menu_items ?? [];
+}
+
+function admMenuPositions() {
+    return config('adm.menu_positions');
 }
 
 function admDefaultLanguage()

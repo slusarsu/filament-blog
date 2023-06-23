@@ -22,6 +22,7 @@ class Menu extends Component
         $this->menu = \App\Models\Menu::query()
             ->where('slug', $slug)
             ->with('menu_items')
+            ->lang()
             ->first();
 
         $this->items = MenuItem::tree($this->menu->id);

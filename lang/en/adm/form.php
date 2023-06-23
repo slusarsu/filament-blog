@@ -23,4 +23,5 @@ return [
     'categories' => 'categories',
     'tags' => 'tags',
     'short' => 'short',
+    'menu_position' => 'menu position',
 ];

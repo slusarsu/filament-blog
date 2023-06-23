@@ -2,29 +2,21 @@
 
 namespace App\Models;
 
-use App\Adm\Traits\ModelHasAdmTranslation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Menu extends Model
+class AdmFormData extends Model
 {
     use HasFactory;
-    use ModelHasAdmTranslation;
-
 
     protected $fillable = [
         'title',
         'slug',
         'is_enabled',
-        'lang',
-        'position',
-    ];
-    protected $casts = [
-        'is_enabled' => 'boolean'
+        'fields',
     ];
 
-    public function menu_items()
-    {
-        return $this->hasMany(MenuItem::class);
-    }
+    protected $casts = [
+        'fields' => 'array'
+    ];
 }

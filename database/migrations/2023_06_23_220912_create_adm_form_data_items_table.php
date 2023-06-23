@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('adm_form_data_items', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->boolean('is_enabled')->default(true);
-            $table->string('lang')->nullable();
-            $table->string('position')->nullable();
+            $table->foreignId('adm_form_data_id')->constrained(
+                table: 'adm_form_data', indexName: 'adm_form_data_id'
+            )->onDelete('cascade');
+            $table->json('payload')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('adm_form_data_items');
     }
 };

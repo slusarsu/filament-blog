@@ -301,6 +301,12 @@ return [
         'book' => 'Book',
     ],
 
+    'menu_positions' => [
+        'header' => 'Header',
+        'sidebar' => 'Sidebar',
+        'footer' => 'Footer',
+    ],
+
     'route_model' => [
         'post' => 'App\Models\Post',
         'page' => 'App\Models\Page',

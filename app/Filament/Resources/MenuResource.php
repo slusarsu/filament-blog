@@ -6,6 +6,7 @@ use App\Filament\Resources\MenuResource\Pages;
 use App\Filament\Resources\MenuResource\RelationManagers;
 use App\Models\Menu;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Form;
@@ -36,18 +37,30 @@ class MenuResource extends Resource
                         ->label(trans('adm/form.title'))
                         ->required()
                         ->lazy()
-                        ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null)
-                        ->columnSpanFull(),
+                        ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null),
 
                     TextInput::make('slug')
                         ->label(trans('adm/form.slug'))
                         ->required()
-                        ->unique(self::getModel(), 'slug', ignoreRecord: true)->columnSpanFull(),
+                        ->unique(self::getModel(), 'slug', ignoreRecord: true),
+
+                    Select::make('lang')
+                        ->label(trans('adm/form.lang'))
+                        ->options(
+                            admLanguages()
+                        )
+                        ->default(admDefaultLanguage()),
+
+                    Select::make('position')
+                        ->label(trans('adm/form.menu_position'))
+                        ->options(
+                            admMenuPositions()
+                        ),
 
                     Toggle::make('is_enabled')
                         ->default(true)
                         ->label(trans('adm/form.is_enabled')),
-                ]),
+                ])->columns(2),
             ]);
     }
 
@@ -64,6 +77,10 @@ class MenuResource extends Resource
                     ->sortable(),
                 TextColumn::make('slug')
                     ->label(trans('adm/form.slug'))
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('lang')
+                    ->label(trans('adm/form.lang'))
                     ->searchable()
                     ->sortable(),
                 IconColumn::make('is_enabled')

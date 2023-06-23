@@ -10,7 +10,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                @foreach(admMenu('top-menu') as $item)
+                @foreach(admMenuByPosition('header') as $item)
                     <li class="nav-item ">
                         <a class="nav-link @if(request()->getRequestUri() == $item->link) active @endif"
                            href="{{$item->link()}}"
