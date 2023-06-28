@@ -53,9 +53,17 @@ class WidgetResource extends Resource
                         ->required()
                         ->unique(self::getModel(), 'slug', ignoreRecord: true)->columnSpanFull(),
 
+                    Select::make('lang')
+                        ->label(trans('adm/form.lang'))
+                        ->options(
+                            admLanguages()
+                        )
+                        ->default(admDefaultLanguage()),
+
                     Select::make('type')->options(
                             WidgetTypeEnum::allValues()
                         )->required(),
+
                         CodeField::make('body')
                             ->htmlField()
                             ->withLineNumbers(),

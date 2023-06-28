@@ -51,9 +51,9 @@ class Category extends Model implements HasMedia
         return $this->belongsToMany(Post::class);
     }
 
-    public static function getAllWithTypes()
+    public static function getAllWithTypes(string $type = '')
     {
-        $categories = Category::get();
+        $categories = Category::query()->where('post_type', $type)->get();
         $categoryMapped = $categories->mapWithKeys(function ($item) {
             return [$item['id'] =>  $item['title'].' (type: '.$item['post_type'].')'];
         });

@@ -120,6 +120,15 @@ class PostResource extends Resource
 
                     Section::make('Taxonomy')
                         ->schema([
+
+                            Select::make('type')
+                                ->label(trans('adm/form.post_type'))
+                                ->options(admPostTypes())
+                                ->default('post')
+                                ->required()
+                                ->reactive()
+                                ->afterStateUpdated(fn (callable $set) => $set('categories', null)),
+
                             Select::make('categories')
                                 ->label(trans('adm/form.categories'))
                                 ->multiple()
@@ -138,10 +147,21 @@ class PostResource extends Resource
                                         ->required()
                                         ->unique(Category::class, 'slug', ignoreRecord: true)->columnSpanFull(),
 
+                                    Select::make('post_type')
+                                        ->label(trans('adm/form.post_type'))
+                                        ->options(admPostTypes())
+                                        ->default('post')
+                                        ->required()
+                                        ->reactive()
+                                        ->afterStateUpdated(fn (callable $set) => $set('parent_id', null)),
+
                                     Select::make('parent_id')
                                         ->label(trans('adm/form.parent'))
-                                        ->options(Category::all()->pluck('title', 'id'))
-                                        ->searchable(),
+                                        ->options(function(callable $get) {
+                                            return Category::query()
+                                                ->where('post_type', $get('post_type'))
+                                                ->pluck('title', 'id');
+                                        }),
 
                                     Select::make('lang')
                                         ->label(trans('adm/form.lang'))
@@ -149,12 +169,6 @@ class PostResource extends Resource
                                             admLanguages()
                                         )
                                         ->default(admDefaultLanguage()),
-                                    Select::make('type')
-                                        ->label(trans('adm/form.post_type'))
-                                        ->options(
-                                            admPostTypes()
-                                        )->default('post'),
-
                                 ]),
 
                             Select::make('tags')
@@ -176,11 +190,7 @@ class PostResource extends Resource
                                         ->unique(Tag::class, 'slug', ignoreRecord: true)->columnSpanFull(),
                                 ]),
 
-                            Select::make('type')
-                                ->label(trans('adm/form.post_type'))
-                                ->options(
-                                    admPostTypes()
-                                )->default('post'),
+
                         ])
                         ->collapsible(),
 

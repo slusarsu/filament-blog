@@ -70,16 +70,20 @@ class CategoryResource extends Resource
 
                             Select::make('post_type')
                                 ->label(trans('adm/form.post_type'))
-                                ->options(
-                                    admPostTypes()
-                                )->default('post'),
+                                ->options(admPostTypes())
+                                ->default('post')
+                                ->required()
+                                ->reactive()
+                                ->afterStateUpdated(fn (callable $set) => $set('parent_id', null)),
 
                             Select::make('parent_id')
                                 ->label(trans('adm/form.parent'))
-                                ->options(self::getModel()::getAllWithTypes())
+                                ->options(function(callable $get) {
+                                    return Category::query()
+                                        ->where('post_type', $get('post_type'))
+                                        ->pluck('title', 'id');
+                                })
                                 ->searchable(),
-
-
 
                             TinyEditor::make('content')
                                 ->label(trans('adm/form.content'))
