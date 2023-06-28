@@ -307,6 +307,11 @@ return [
         'footer' => 'Footer',
     ],
 
+    'widget_positions' => [
+        'top_center' => 'Top Center',
+        'sidebar' => 'Sidebar',
+    ],
+
     'route_model' => [
         'post' => 'App\Models\Post',
         'page' => 'App\Models\Page',

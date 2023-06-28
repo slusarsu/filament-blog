@@ -137,7 +137,8 @@ class CategoryResource extends Resource
                                 ->default(true),
                         ]),
 
-                ])->columnSpan(1),
+                ])
+                    ->columnSpan(1),
 
             ])
             ->columns(4);

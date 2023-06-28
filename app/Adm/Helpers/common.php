@@ -46,8 +46,26 @@ function admMenuByPosition($position) {
     return !empty($menu->menu_items) ? MenuItem::tree($menu->id) : $menu->menu_items ?? [];
 }
 
-function admMenuPositions() {
-    return config('adm.menu_positions');
+function mergeTemplateAdmSettings(string $key): array
+{
+    $templateSettings = templateSettings();
+    $array = config('adm.'.$key);
+
+    if(!empty($templateSettings[$key]) && !empty($array) && is_array($templateSettings[$key])) {
+        $array = [...$array, ...$templateSettings[$key]];
+    }
+
+    return $array;
+}
+
+function admMenuPositions(): array
+{
+    return mergeTemplateAdmSettings('menu_positions');
+}
+
+function admWidgetPositions(): array
+{
+    return mergeTemplateAdmSettings('widget_positions');
 }
 
 function admDefaultLanguage()

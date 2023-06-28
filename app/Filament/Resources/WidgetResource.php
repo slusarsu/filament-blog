@@ -9,6 +9,7 @@ use App\Filament\Resources\WidgetResource\RelationManagers;
 use App\Models\Widget;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -42,25 +43,15 @@ class WidgetResource extends Resource
     {
         return $form
             ->schema([
-                Card::make()->schema([
-                    TextInput::make('title')
-                        ->required()
-                        ->lazy()
-                        ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null)
-                        ->columnSpanFull(),
+                Group::make()->schema([
+                    Card::make()->schema([
+                        TextInput::make('title')
+                            ->required()
+                            ->lazy()
+                            ->afterStateUpdated(fn (string $context, $state, callable $set) => $context === 'create' ? $set('slug', Str::slug($state)) : null)
+                            ->columnSpanFull(),
 
-                    TextInput::make('slug')
-                        ->required()
-                        ->unique(self::getModel(), 'slug', ignoreRecord: true)->columnSpanFull(),
-
-                    Select::make('lang')
-                        ->label(trans('adm/form.lang'))
-                        ->options(
-                            admLanguages()
-                        )
-                        ->default(admDefaultLanguage()),
-
-                    Select::make('type')->options(
+                        Select::make('type')->options(
                             WidgetTypeEnum::allValues()
                         )->required(),
 
@@ -69,7 +60,37 @@ class WidgetResource extends Resource
                             ->withLineNumbers(),
                         Toggle::make('is_enabled')->default(true),
                     ]),
-            ]);
+                ])->columnSpan(3),
+
+                Group::make()->schema([
+                    Card::make()->schema([
+
+                        TextInput::make('slug')
+                            ->required()
+                            ->unique(self::getModel(), 'slug', ignoreRecord: true)->columnSpanFull(),
+
+                        TextInput::make('order')
+                            ->label(trans('adm/form.order'))
+                            ->integer(true)
+                            ->default(0),
+
+                        Select::make('lang')
+                            ->label(trans('adm/form.lang'))
+                            ->options(
+                                admLanguages()
+                            )
+                            ->default(admDefaultLanguage()),
+
+                        Select::make('position')
+                            ->label(trans('adm/form.position'))
+                            ->options(
+                                admWidgetPositions()
+                            ),
+
+                    ]),
+                ])->columnSpan(1),
+            ])
+            ->columns(4);
     }
 
     public static function table(Table $table): Table

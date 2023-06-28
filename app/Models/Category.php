@@ -25,6 +25,7 @@ class Category extends Model implements HasMedia
         'parent_id',
         'post_type',
         'content',
+        'order',
         'seo_title',
         'seo_text_keys',
         'seo_description',
@@ -51,19 +52,9 @@ class Category extends Model implements HasMedia
         return $this->belongsToMany(Post::class);
     }
 
-    public static function getAllWithTypes(string $type = '')
+    public static function tree($post_type)
     {
-        $categories = Category::query()->where('post_type', $type)->get();
-        $categoryMapped = $categories->mapWithKeys(function ($item) {
-            return [$item['id'] =>  $item['title'].' (type: '.$item['post_type'].')'];
-        });
-        return $categoryMapped->all();
-
-    }
-
-    public static function tree()
-    {
-        $allCategories = Category::all();
+        $allCategories = Category::query()->where('post_type', $post_type)->get();
 
         $rootCategories = $allCategories->whereNull('parent_id');
 
