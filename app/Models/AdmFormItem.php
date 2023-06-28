@@ -5,18 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AdmFormData extends Model
+class AdmFormItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'slug',
-        'is_enabled',
-        'fields',
+        'adm_form_id',
+        'payload',
     ];
 
     protected $casts = [
-        'fields' => 'array'
+        'payload' => 'array'
     ];
+
+    public function admForm()
+    {
+        return $this->belongsTo(AdmForm::class);
+    }
 }

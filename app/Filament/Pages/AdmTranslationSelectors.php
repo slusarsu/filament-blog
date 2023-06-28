@@ -56,7 +56,13 @@ class AdmTranslationSelectors extends Page
 
     public function getAllRecords()
     {
-        return $this->model_type::query()->where('lang', '!=', $this->record->lang)->get();
+        $records =  $this->model_type::query()->where('lang', '!=', $this->record->lang);
+
+        if($this->model_type == 'App\Models\Post') {
+            $records = $records->where('type', $this->record->type);
+        }
+
+        return $records->get();
     }
 
     public function formFillRecords(): void

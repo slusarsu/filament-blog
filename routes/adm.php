@@ -1,5 +1,6 @@
 <?php
 
+use App\Adm\Controllers\AdmFormController;
 use App\Adm\Controllers\CategoryController;
 use App\Adm\Controllers\PageController;
 use App\Adm\Controllers\PostController;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/welcome', 'welcome')->name('welcome');
 Route::get('/set-locale/{lang}', [TranslateController::class, 'setLocale'])->name('set-locale');
 Route::post('/switch-locale', [TranslateController::class, 'localeSwitcher'])->name('switch-locale');
+Route::post('/adm-form/{link_hash}', [AdmFormController::class, 'form'])->name('adm-form');
 
 Route::redirect('/', '/'.admDefaultLanguage());
 

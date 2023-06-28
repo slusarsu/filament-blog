@@ -12,6 +12,15 @@ function siteSetting() {
     return Valuestore::make(app_path('Adm/Settings/site_settings.json'));
 }
 
+function siteSettingsAll() {
+    return siteSetting()->all();
+}
+
+function templateSettings() {
+    $admSite = siteSettingsAll();
+    return resolve(TemplateService::class)->getTemplateSettings($admSite['template']);
+}
+
 function getFullTemplatePath(): string
 {
     return 'resources/views/' . siteSetting()->get('template') .'/';

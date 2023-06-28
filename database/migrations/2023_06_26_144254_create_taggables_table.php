@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('adm_form_data_items', function (Blueprint $table) {
+        Schema::create('taggables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('adm_form_data_id')->constrained(
-                table: 'adm_form_data', indexName: 'adm_form_data_id'
-            )->onDelete('cascade');
-            $table->json('payload')->nullable();
+            $table->integer('tag_id');
+            $table->integer('taggable_id');
+            $table->string('taggable_type');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('adm_form_data_items');
+        Schema::dropIfExists('taggables');
     }
 };

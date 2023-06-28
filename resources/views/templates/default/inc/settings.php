@@ -2,5 +2,11 @@
 
 return [
     'name' => 'default!',
-    'author' => 'Me'
+    'author' => 'Me',
+    'post_types' => [
+        'product' => 'Product',
+    ],
+    'menu_positions' => [
+        'right_sidebar' => 'Header',
+    ],
 ];

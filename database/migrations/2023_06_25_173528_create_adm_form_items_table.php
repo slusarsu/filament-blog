@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('adm_form_data', function (Blueprint $table) {
+        Schema::create('adm_form_items', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->string('link_hash')->unique();
-            $table->boolean('is_enabled')->default(true);
-            $table->json('fields')->nullable();
+            $table->foreignId('adm_form_id')
+                ->constrained(table: 'adm_forms', indexName: 'adm_form_id')
+                ->onDelete('cascade');
+            $table->json('payload')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('adm_form_data');
+        Schema::dropIfExists('adm_form_items');
     }
 };

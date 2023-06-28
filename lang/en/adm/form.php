@@ -24,4 +24,5 @@ return [
     'tags' => 'tags',
     'short' => 'short',
     'menu_position' => 'menu position',
+    'post_type' => 'post type',
 ];

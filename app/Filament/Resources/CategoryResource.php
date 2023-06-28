@@ -22,6 +22,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
@@ -67,10 +68,18 @@ class CategoryResource extends Resource
                                 ->integer(true)
                                 ->default(0),
 
+                            Select::make('post_type')
+                                ->label(trans('adm/form.post_type'))
+                                ->options(
+                                    admPostTypes()
+                                )->default('post'),
+
                             Select::make('parent_id')
                                 ->label(trans('adm/form.parent'))
-                                ->options(self::getModel()::all()->pluck('title', 'id'))
+                                ->options(self::getModel()::getAllWithTypes())
                                 ->searchable(),
+
+
 
                             TinyEditor::make('content')
                                 ->label(trans('adm/form.content'))
@@ -91,7 +100,7 @@ class CategoryResource extends Resource
                             Textarea::make('seo_description')
                                 ->label(trans('adm/form.seo_description'))
                                 ->columnSpan('full'),
-                        ])->collapsible(),
+                        ])->collapsible()->collapsed(),
 
 
                 ])->columnSpan(3),
@@ -149,6 +158,9 @@ class CategoryResource extends Resource
                 TextColumn::make('order')
                     ->label(trans('adm/form.order'))
                     ->sortable(),
+                TextColumn::make('post_type')
+                    ->label(trans('adm/form.post_type'))
+                    ->sortable(),
                 TextColumn::make('parent.title')
                     ->label(trans('adm/form.title'))
                     ->sortable(),
@@ -165,6 +177,9 @@ class CategoryResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('post_type')
+                    ->multiple()
+                    ->options(admPostTypes()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

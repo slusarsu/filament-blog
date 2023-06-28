@@ -34,4 +34,18 @@ function admPostById($id) {
     return resolve(PostService::class)->oneById($id);
 }
 
+function admPostTypes() {
+    $types = config('adm.post_types');
+    $templateSettings = templateSettings();
+
+    if(!empty($templateSettings['post_types'])) {
+        $types = [...$types, ...$templateSettings['post_types']];
+    }
+
+    return $types;
+}
+
+function test($data) {
+    dd($data);
+}
 

@@ -23,6 +23,7 @@ class Category extends Model implements HasMedia
         'title',
         'slug',
         'parent_id',
+        'post_type',
         'content',
         'seo_title',
         'seo_text_keys',
@@ -32,7 +33,7 @@ class Category extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'is_enabled' => 'boolean'
+        'is_enabled' => 'boolean',
     ];
 
     public function parent(): BelongsTo
@@ -48,6 +49,16 @@ class Category extends Model implements HasMedia
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class);
+    }
+
+    public static function getAllWithTypes()
+    {
+        $categories = Category::get();
+        $categoryMapped = $categories->mapWithKeys(function ($item) {
+            return [$item['id'] =>  $item['title'].' (type: '.$item['post_type'].')'];
+        });
+        return $categoryMapped->all();
+
     }
 
     public static function tree()

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->string('slug')->unique();
+            $table->string('type')->default('post');
             $table->text('short')->nullable();
             $table->text('content')->nullable();
             $table->string('seo_title')->nullable();

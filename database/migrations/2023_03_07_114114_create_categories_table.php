@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->integer('order')->default(0);
+            $table->string('post_type')->default('post');
             $table->text('content')->nullable();
             $table->string('seo_title')->nullable();
             $table->string('seo_text_keys')->nullable();

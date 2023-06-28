@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
@@ -27,6 +28,7 @@ class Post extends Model implements HasMedia
         'user_id',
         'title',
         'slug',
+        'type',
         'short',
         'parent_id',
         'content',
@@ -53,12 +55,17 @@ class Post extends Model implements HasMedia
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->where('post_type', $this->type);
     }
 
-    public function tags(): BelongsToMany
+    public function tags(): MorphToMany
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function getTags()
+    {
+        return $this->tags()->get();
     }
 
     public function scopeActive(Builder $query): void

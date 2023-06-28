@@ -28,6 +28,7 @@ use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
@@ -141,12 +142,19 @@ class PostResource extends Resource
                                         ->label(trans('adm/form.parent'))
                                         ->options(Category::all()->pluck('title', 'id'))
                                         ->searchable(),
+
                                     Select::make('lang')
                                         ->label(trans('adm/form.lang'))
                                         ->options(
                                             admLanguages()
                                         )
                                         ->default(admDefaultLanguage()),
+                                    Select::make('type')
+                                        ->label(trans('adm/form.post_type'))
+                                        ->options(
+                                            admPostTypes()
+                                        )->default('post'),
+
                                 ]),
 
                             Select::make('tags')
@@ -166,7 +174,13 @@ class PostResource extends Resource
                                         ->label(trans('adm/form.slug'))
                                         ->required()
                                         ->unique(Tag::class, 'slug', ignoreRecord: true)->columnSpanFull(),
-                                ])
+                                ]),
+
+                            Select::make('type')
+                                ->label(trans('adm/form.post_type'))
+                                ->options(
+                                    admPostTypes()
+                                )->default('post'),
                         ])
                         ->collapsible(),
 
@@ -217,6 +231,10 @@ class PostResource extends Resource
                 TextColumn::make('slug')
                     ->label(trans('adm/form.slug')),
 
+                TextColumn::make('type')
+                    ->label(trans('adm/form.post_type'))
+                    ->sortable(),
+
                 TagsColumn::make('categories.title')
                     ->label(trans('adm/form.categories'))
                     ->separator(','),
@@ -242,6 +260,9 @@ class PostResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('type')
+                    ->multiple()
+                    ->options(admPostTypes()),
                 Filter::make('only_enabled')
                     ->query(fn (Builder $query): Builder => $query->where('is_enabled', true))
                     ->toggle()

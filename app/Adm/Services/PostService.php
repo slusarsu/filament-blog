@@ -22,6 +22,7 @@ class PostService
     {
         $this->model = new Post();
         $this->allPostParams = [
+            'type' => 'post',
             'orderBy' => 'desc',
             'orderByParam' => 'created_at',
 //            'orderByParam' => 'id',
@@ -41,13 +42,17 @@ class PostService
 
     public function postsFilter($posts, int $paginateCount, array $param)
     {
-        $posts = $posts->with('tags:id,title,slug')->with('categories:id,title,slug');
+        if(!empty($param['type'])) {
+            $posts = $posts->where('type', $param['type']);
+        }
 
         $posts = $posts->orderBy($param['orderByParam'],$param['orderBy']);
 
         if($param['limit']) {
             $posts = $posts->limit($param['limit']);
         }
+
+        $posts = $posts->with('tags');
 
         if($paginateCount){
             $posts = $posts->paginate($paginateCount);

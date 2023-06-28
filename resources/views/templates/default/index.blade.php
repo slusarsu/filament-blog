@@ -15,6 +15,11 @@
                         <a href="{{$post->url()}}">
                             <h5 class="card-title my-2">{{$post->id}} | {{$post->lang}} | {{$post->title}}</h5>
                         </a>
+                        <div>
+                            @foreach($post->getTags() as $tag)
+                                {{$tag->title}}
+                            @endforeach
+                        </div>
 
                         <div class="card-body p-0">
                             <p class="card-text">
