@@ -142,6 +142,8 @@ return [
         'register' => [
             Widgets\AccountWidget::class,
             Widgets\FilamentInfoWidget::class,
+            \App\Filament\Resources\PageResource\Widgets\PageStatsOverview::class,
+            \App\Filament\Resources\PostResource\Widgets\PostStatsOverview::class,
         ],
     ],
 
