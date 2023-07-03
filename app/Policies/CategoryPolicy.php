@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Adm\Enums\PermissionEnum;
 use App\Adm\Enums\RoleEnum;
 use App\Models\Category;
 use App\Models\User;
@@ -13,7 +14,7 @@ class CategoryPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo(PermissionEnum::CREATE_CATEGORY->value);
     }
 
     /**
@@ -21,7 +22,7 @@ class CategoryPolicy
      */
     public function view(User $user, Category $category): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_CATEGORY->value);
     }
 
     /**
@@ -29,7 +30,7 @@ class CategoryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_CATEGORY->value);
     }
 
     /**
@@ -37,7 +38,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::UPDATE_CATEGORY->value);
     }
 
     /**
@@ -45,7 +46,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::DELETE_CATEGORY->value);
     }
 
     /**
@@ -53,7 +54,7 @@ class CategoryPolicy
      */
     public function restore(User $user, Category $category): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::RESTORE_CATEGORY->value);
     }
 
     /**
@@ -61,6 +62,6 @@ class CategoryPolicy
      */
     public function forceDelete(User $user, Category $category): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::FORCE_DELETE_CATEGORY->value);
     }
 }

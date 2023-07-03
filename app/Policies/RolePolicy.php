@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Adm\Enums\PermissionEnum;
 use App\Adm\Enums\RoleEnum;
 use App\Models\Role;
 use App\Models\User;
@@ -13,7 +14,8 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        dd(11);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_ROLE->value);
     }
 
     /**
@@ -21,15 +23,15 @@ class RolePolicy
      */
     public function view(User $user, Role $role): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_ROLE->value);
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Role $role): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_ROLE->value);
     }
 
     /**
@@ -37,7 +39,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::UPDATE_ROLE->value);
     }
 
     /**
@@ -45,7 +47,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::DELETE_ROLE->value);
     }
 
     /**
@@ -53,7 +55,7 @@ class RolePolicy
      */
     public function restore(User $user, Role $role): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::RESTORE_ROLE->value);
     }
 
     /**
@@ -61,6 +63,6 @@ class RolePolicy
      */
     public function forceDelete(User $user, Role $role): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::FORCE_DELETE_ROLE->value);
     }
 }

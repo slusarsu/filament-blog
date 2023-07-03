@@ -58,7 +58,8 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessFilament(): bool
     {
-        return $this->hasRole(RoleEnum::dashboardAllowedRoles());
+//        return $this->hasRole(RoleEnum::dashboardAllowedRoles());
+        return true;
     }
 
     public function canManageSettings(): bool

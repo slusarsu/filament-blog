@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Adm\Enums\PermissionEnum;
 use App\Adm\Enums\RoleEnum;
 use App\Models\Post;
 use App\Models\User;
@@ -13,7 +14,7 @@ class PostPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo(PermissionEnum::CREATE_POST->value);
     }
 
     /**
@@ -21,7 +22,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_POST->value);
     }
 
     /**
@@ -29,7 +30,7 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_POST->value);
     }
 
     /**
@@ -37,7 +38,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::UPDATE_POST->value);
     }
 
     /**
@@ -45,7 +46,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::DELETE_POST->value);
     }
 
     /**
@@ -53,7 +54,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::RESTORE_POST->value);
     }
 
     /**
@@ -61,6 +62,6 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::FORCE_DELETE_POST->value);
     }
 }

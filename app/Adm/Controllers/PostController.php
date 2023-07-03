@@ -17,7 +17,7 @@ class PostController extends Controller
     public function post(Request $request, $lang, $slug)
     {
         $post = $this->postService->oneBySlug($slug);
-        
+
         $thumb = $post->thumb() ?? '';
         $images = $post->images() ?? [];
 

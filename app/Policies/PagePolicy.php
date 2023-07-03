@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Adm\Enums\PermissionEnum;
 use App\Adm\Enums\RoleEnum;
 use App\Models\Page;
 use App\Models\User;
@@ -13,7 +14,7 @@ class PagePolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo(PermissionEnum::CREATE_PAGE->value);
     }
 
     /**
@@ -21,10 +22,7 @@ class PagePolicy
      */
     public function view(User $user, Page $page): bool
     {
-        if($user->hasRole(RoleEnum::ADMIN->value) || $user->hasPermissionTo('Create page')) {
-            return true;
-        }
-        return false;
+        return $user->hasPermissionTo(PermissionEnum::CREATE_PAGE->value);
     }
 
     /**
@@ -32,10 +30,7 @@ class PagePolicy
      */
     public function create(User $user): bool
     {
-        if($user->hasRole(RoleEnum::ADMIN->value) || $user->hasPermissionTo('Create page')) {
-            return true;
-        }
-        return false;
+        return $user->hasPermissionTo(PermissionEnum::CREATE_PAGE->value);
     }
 
     /**
@@ -43,10 +38,7 @@ class PagePolicy
      */
     public function update(User $user, Page $page): bool
     {
-        if($user->hasRole(RoleEnum::ADMIN->value) || $user->hasPermissionTo('Create page')) {
-            return true;
-        }
-        return false;
+        return $user->hasPermissionTo(PermissionEnum::UPDATE_PAGE->value);
     }
 
     /**
@@ -54,7 +46,7 @@ class PagePolicy
      */
     public function delete(User $user, Page $page): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::DELETE_PAGE->value);
     }
 
     /**
@@ -62,7 +54,7 @@ class PagePolicy
      */
     public function restore(User $user, Page $page): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::RESTORE_PAGE->value);
     }
 
     /**
@@ -70,6 +62,6 @@ class PagePolicy
      */
     public function forceDelete(User $user, Page $page): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::FORCE_DELETE_PAGE->value);
     }
 }

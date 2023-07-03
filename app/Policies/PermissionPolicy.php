@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Adm\Enums\PermissionEnum;
 use App\Adm\Enums\RoleEnum;
 use App\Models\Permission;
 use App\Models\User;
@@ -13,7 +14,7 @@ class PermissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_PERMISSION->value);
     }
 
     /**
@@ -21,7 +22,7 @@ class PermissionPolicy
      */
     public function view(User $user, Permission $permission): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_PERMISSION->value);
     }
 
     /**
@@ -29,7 +30,7 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::CREATE_PERMISSION->value);
     }
 
     /**
@@ -37,7 +38,7 @@ class PermissionPolicy
      */
     public function update(User $user, Permission $permission): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::UPDATE_PERMISSION->value);
     }
 
     /**
@@ -45,7 +46,7 @@ class PermissionPolicy
      */
     public function delete(User $user, Permission $permission): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::DELETE_PERMISSION->value);
     }
 
     /**
@@ -53,7 +54,7 @@ class PermissionPolicy
      */
     public function restore(User $user, Permission $permission): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::RESTORE_PERMISSION->value);
     }
 
     /**
@@ -61,6 +62,6 @@ class PermissionPolicy
      */
     public function forceDelete(User $user, Permission $permission): bool
     {
-        return $user->hasRole(RoleEnum::ADMIN->value);
+        return $user->hasPermissionTo(PermissionEnum::FORCE_DELETE_PERMISSION->value);
     }
 }

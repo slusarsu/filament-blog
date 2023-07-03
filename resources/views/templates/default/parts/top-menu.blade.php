@@ -20,6 +20,39 @@
                     </li>
                 @endforeach
 
+                @if(auth()->check())
+                    <li class="nav-item dropdown">
+
+                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{auth()->user()->name}}
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li>
+                                <a href="{{url('/admin')}}" class="dropdown-item">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <form action="{{url('/filament/logout')}}" method="post">
+                                    @csrf
+                                    <button class="dropdown-item" type="submit">
+                                        Logout
+                                    </button>
+                                </form>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                @else
+                    <li class="nav-item ">
+                        <a class="nav-link"  href="{{url('/admin/login')}}">
+                            Login
+                        </a>
+                    </li>
+                @endif
+
                 <li class="nav-item dropdown">
                     <form action="{{route('switch-locale')}}" method="post">
                         @csrf
