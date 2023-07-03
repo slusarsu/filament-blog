@@ -81,6 +81,45 @@ enum PermissionEnum: string
 
     case FORCE_DELETE_PERMISSION = 'force_delete_permission';
 
+    //WIDGET PERMISSIONS
+    case SEE_WIDGET = 'see_widget';
+
+    case CREATE_WIDGET = 'create_widget';
+
+    case UPDATE_WIDGET = 'update_widget';
+
+    case DELETE_WIDGET = 'delete_widget';
+
+    case RESTORE_WIDGET = 'restore_widget';
+
+    case FORCE_DELETE_WIDGET = 'force_delete_widget';
+
+    //ADM FORM PERMISSIONS
+    case SEE_ADM_FORM = 'see_adm_form';
+
+    case CREATE_ADM_FORM = 'create_adm_form';
+
+    case UPDATE_ADM_FORM = 'update_adm_form';
+
+    case DELETE_ADM_FORM = 'delete_adm_form';
+
+    case RESTORE_ADM_FORM = 'restore_adm_form';
+
+    case FORCE_DELETE_ADM_FORM = 'force_delete_adm_form';
+
+    //MENU FORM PERMISSIONS
+    case SEE_MENU = 'see_menu';
+
+    case CREATE_MENU = 'create_menu';
+
+    case UPDATE_MENU = 'update_menu';
+
+    case DELETE_MENU = 'delete_menu';
+
+    case RESTORE_MENU = 'restore_menu';
+
+    case FORCE_DELETE_MENU = 'force_delete_menu';
+
     /**
      * @return array
      */
@@ -122,6 +161,24 @@ enum PermissionEnum: string
             self::DELETE_PERMISSION->value,
             self::RESTORE_PERMISSION->value,
             self::FORCE_DELETE_PERMISSION->value,
+            self::SEE_WIDGET->value,
+            self::CREATE_WIDGET->value,
+            self::UPDATE_WIDGET->value,
+            self::DELETE_WIDGET->value,
+            self::RESTORE_WIDGET->value,
+            self::FORCE_DELETE_WIDGET->value,
+            self::SEE_ADM_FORM->value,
+            self::CREATE_ADM_FORM->value,
+            self::UPDATE_ADM_FORM->value,
+            self::DELETE_ADM_FORM->value,
+            self::RESTORE_ADM_FORM->value,
+            self::FORCE_DELETE_ADM_FORM->value,
+            self::SEE_MENU->value,
+            self::CREATE_MENU->value,
+            self::UPDATE_MENU->value,
+            self::DELETE_MENU->value,
+            self::RESTORE_MENU->value,
+            self::FORCE_DELETE_MENU->value,
         ];
     }
 

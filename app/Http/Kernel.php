@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Adm\Middleware\CheckAdminAccess;
 use App\Http\Middleware\TranslateMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -65,5 +66,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'translate' => TranslateMiddleware::class,
+        'CheckAdminAccess' => CheckAdminAccess::class,
     ];
 }

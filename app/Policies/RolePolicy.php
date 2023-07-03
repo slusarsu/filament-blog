@@ -14,7 +14,6 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        dd(11);
         return $user->hasPermissionTo(PermissionEnum::CREATE_ROLE->value);
     }
 

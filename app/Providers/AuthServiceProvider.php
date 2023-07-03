@@ -5,9 +5,9 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 use App\Adm\Enums\RoleEnum;
 use App\Models\Page;
-use App\Models\Permission;
 use App\Models\Post;
-use App\Models\Role;
+use \Spatie\Permission\Models\Role as ModelRole;
+use \Spatie\Permission\Models\Permission as ModelPermission;
 use App\Models\Tag;
 use App\Models\User;
 use App\Policies\PagePolicy;
@@ -29,8 +29,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         User::class => UserPolicy::class,
-        Role::class => RolePolicy::class,
-        Permission::class => PermissionPolicy::class,
+        ModelRole::class => RolePolicy::class,
+        ModelPermission::class => PermissionPolicy::class,
         Post::class => PostPolicy::class,
         Page::class => PagePolicy::class,
         Tag::class => TagPolicy::class,

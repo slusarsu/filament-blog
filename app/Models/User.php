@@ -66,4 +66,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->can('Manage Settings');
     }
+
+    public function isAdmin()
+    {
+        return $this->hasRole(RoleEnum::ADMIN->value);
+    }
 }

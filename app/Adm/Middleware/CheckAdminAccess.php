@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Adm\Middleware;
 
-use App;
+use App\Adm\Enums\RoleEnum;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TranslateMiddleware
+class CheckAdminAccess
 {
     /**
      * Handle an incoming request.
@@ -16,15 +16,10 @@ class TranslateMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(empty($request->lang)) {
-            App::setLocale(admDefaultLanguage());
+        if($request->user()->isAdmin()) {
+            return $next($request);
         }
 
-        if(!empty($request->lang)) {
-            App::setLocale($request->lang);
-            session()->put('locale', $request->lang);
-        }
-
-        return $next($request);
+        return back();
     }
 }

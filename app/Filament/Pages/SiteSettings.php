@@ -39,12 +39,19 @@ class SiteSettings extends Page
 
     private mixed $templateService;
 
+    protected static string | array $middlewares = ['CheckAdminAccess'];
+
     public function __construct($id = null)
     {
         parent::__construct($id);
         $this->valueStore = siteSetting();
         $this->templateService = resolve(TemplateService::class);
         $this->heading = trans('adm/dashboard.site_settings');
+    }
+
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
     }
 
     protected static function getNavigationLabel(): string
@@ -54,6 +61,8 @@ class SiteSettings extends Page
 
     public function mount(): void
     {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
         $this->form->fill([
             'name' => $this->valueStore->get('name'),
             'keyWords' => $this->valueStore->get('keyWords'),
