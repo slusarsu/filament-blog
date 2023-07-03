@@ -10,6 +10,7 @@
         "creagia/filament-code-field": "^1.0",
         "filament/filament": "^2.17",
         "filament/spatie-laravel-media-library-plugin": "^2.17",
+        "filipfonal/filament-log-manager": "^1.2",
         "guzzlehttp/guzzle": "^7.2",
         "jeffgreco13/filament-breezy": "^1.5",
         "laravel/framework": "^10.0",
@@ -18,7 +19,6 @@
         "mohamedsabil83/filament-forms-tinyeditor": "^1.7",
         "novadaemon/filament-pretty-json": "^1.0",
         "phpsa/filament-authentication": "^2.4",
-        "saade/filament-laravel-log": "^1.2",
         "spatie/laravel-permission": "^5.10",
         "spatie/valuestore": "^1.3"
     },
